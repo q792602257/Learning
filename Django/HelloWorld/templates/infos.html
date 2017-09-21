@@ -1,0 +1,27 @@
+
+{%extends "./head.html"%}
+{%block title%}
+查询结果
+{%endblock%}
+{%block content%}
+<table>
+{%if trlist%}
+	<tr>
+	{%for i in trlist%}
+		<td>{{i}}</td>
+	{%endfor%}
+{%endif%}
+</tr>
+{%if datalist%}
+	{%for j in datalist%}
+		<tr>
+		{%for k in j%}
+			<td>{{k}}</td>
+		{%endfor%}
+		</tr>
+	{%endfor%}
+{%endif%}
+</tr>
+</table>
+{%endblock%}
+</html>
