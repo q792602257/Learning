@@ -2,3 +2,5 @@
 *.exe
 *.py[cod]
 *.class
+.pylintrc
+wall*
