@@ -41,15 +41,14 @@ def weather(city, code):
 	jdata2 = json.loads(jhtml2)["f"]
 	jdata3 = json.loads(jhtml3)["2001006"]
 	weatherInfo={}
-	weatherInfo["湿度"]=jdata["SD"]
-	weatherInfo["风向"]=jdata["WD"]
-	weatherInfo["风力"]=jdata["WS"]
-	weatherInfo["空气质量"]=jdata["aqi"]
-	weatherInfo["下雨概率"]=jdata["rain24h"]
-	weatherInfo["当前温度"]=jdata["temp"]
-	weatherInfo["当前天气"]=jdata["weather"]
-	weatherInfo["更新时间"]=jdata["time"]
-	weatherInfo["三日天气"]=[]
+	weatherInfo["wet"]=jdata["SD"]
+	weatherInfo["wind"]=jdata["WD"]+jdata["WS"]
+	weatherInfo["aqi"]=jdata["aqi"]
+	weatherInfo["isRain"]=jdata["rain24h"]
+	weatherInfo["temp"]=jdata["temp"]
+	weatherInfo["weather"]=jdata["weather"]
+	weatherInfo["time"]=jdata["time"]
+	weatherInfo["future"]=[]
 	e=0
 	for day in jdata2[1:3]:
 		t={}
@@ -64,19 +63,19 @@ def weather(city, code):
 		t["日出"]=a["sunup"][e]		
 		weatherInfo["三日天气"].append(t)
 		e +=1
-	weatherInfo["预报更新时间"]=a["uptime"]
-	weatherInfo["小时预报"]=[]
+	weatherInfo["stime"]=a["uptime"]
+	weatherInfo["detail"]=[]
 	e=0
-	for u in a["hour3data"]:
+	for u in a["detail"]:
 		for v in u:
 			t={}
-			t["天气"]=v["ja"]
-			t["时间"]=v["jf"]
-			t["温度"]=v["jb"]
-			t["风向"]=v["jd"]
-			t["湿度"]=v["je"]
-			t["下雨"]=v["jc"]
-			weatherInfo["小时预报"].append(t)
+			t["weather"]=v["ja"]
+			t["stime"]=v["jf"]
+			t["temp"]=v["jb"]
+			t["windd"]=v["jd"]
+			t["wet"]=v["je"]
+			t["isRain"]=v["jc"]
+			weatherInfo["detail"].append(t)
 		e+=1
 		if e>=10:
 			break

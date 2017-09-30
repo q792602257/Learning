@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf8')
 class MySQL():
 	def SQLCon(self):
 		self.conn= MySQLdb.connect(
-			host='59.110.234.236',
+			host='localhost',
 			port = 3306,
 			user='root',
 			passwd='cc1123yhq',
@@ -81,11 +81,14 @@ class eHentai(MySQL):
 		if not os.path.exists(os.path.join("eH",self.id)):
 			os.makedirs(os.path.join("eH",self.id))
 		if not os.path.exists(os.path.join("eH",self.id,"%s.jpg"%self.q)):
-			page = self.opener.get(url,headers=self.headers,timeout=15)
-			data = page.content
-			with open(os.path.join("eH",self.id,"%s.jpg"%self.q),"wb") as f:
-				f.write(data)
-				print "OK"
+			if os.path.getsize(os.path.join("eH",self.id,"%s.jpg"%self.q))=28658:
+				page = self.opener.get(url,headers=self.headers,timeout=15)
+				data = page.content
+				with open(os.path.join("eH",self.id,"%s.jpg"%self.q),"wb") as f:
+					f.write(data)
+					print "OK"
+			else:
+				print "Exist"
 		else:
 			print "Exist"
 	def resume(self):
