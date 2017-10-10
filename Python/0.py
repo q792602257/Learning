@@ -370,27 +370,35 @@ class GUIDemo():
 
 #复制清空粘贴等#
 	def lCopyAll(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs))
 
 	def lCopy0(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs).split("\t")[0])
 
 	def MCopy0(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs).split("\t")[0].split(" - ")[0])
 
 	def MCopy1(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs).split("\t")[0].split(" - ")[1])
 
 	def lCopy1(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs).split("\t")[1])
 
 	def lCopy2(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs).split("\t")[2])
 
 	def lCopy3(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.mainList.get(self.mRs).split("\t")[3])
 
 	def eCopy(self):
+		self.root.clipboard_clear()
 		self.root.clipboard_append(self.sthE.get())
 
 	def ePaste(self):
