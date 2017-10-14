@@ -161,5 +161,5 @@ def c():
 def s():
 	s=S()
 	s.listen()
-c()
+s()
 
