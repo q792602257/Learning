@@ -98,7 +98,7 @@ class cardReader():
 			n = self.t.inWaiting()
 			info=self.t.read(n)
 		return self.datarHandler(info)
-	def verifyToken(self,token,where,ttype="A"):
+	def verifyToken(self,token,where,ttype="A")
 		token=token.replace(" ","")
 		print "[INFO][VFTK] @%s/%s %s"%(where,ttype,token)
 		if not self.selectCard:
