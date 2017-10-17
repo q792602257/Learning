@@ -98,7 +98,7 @@ class cardReader():
 			n = self.t.inWaiting()
 			info=self.t.read(n)
 		return self.datarHandler(info)
-	def verifyToken(self,token,where,ttype="A")
+	def verifyToken(self,token,where,ttype="A"):
 		token=token.replace(" ","")
 		print "[INFO][VFTK] @%s/%s %s"%(where,ttype,token)
 		if not self.selectCard:
@@ -156,6 +156,20 @@ class cardReader():
 				pass
 				return True
 		return False
+	def complexReadData(self,where,part=0,ttype='A',token='FFFFFFFFFFFF'):
+		where=int2hex(where)
+		part=int2hex(part)
+		token=token.replace(" ","")
+		if len(token)!=12:
+			return False
+		if ttype=='A':
+			tD='60'
+		elif ttype=='B':
+			tD='61'
+		else:
+			return False
+		info = self.send("03070000%s%s%s%s"%(where,part,tD,token))
+		return info
 	def cashRead(self,where):
 		pass
 	def cashAdd(self,where,amount):
@@ -183,7 +197,8 @@ def checksum(data):
 
 a=cardReader()
 a.complexSelectCard()
-a.verifyToken("FFFFFFFFFFFF",14,"A")
+a.complexReadData(14,0,'A','FFFFFFFFFFFF')
+# a.verifyToken("FFFFFFFFFFFF",14,"A")
 a.turnAFount()
 a.turnBeep()
 
