@@ -143,7 +143,7 @@ class cardReader():
 				return "%s\tS70"%(cardID)
 		else:
 			return "Unknown"
-	def complexReadData(self,where,part=0,ttype='A',token='FFFFFFFFFFFF'):
+	def complexReadData(self,where,part,ttype='A',token='FFFFFFFFFFFF'):
 		print "[INFO][cRdC] Start"
 		where=int2hex(where)
 		part=int2hex(part)
@@ -162,7 +162,7 @@ class cardReader():
 		info = self.send("03070000%s%s%s%s"%(where,part,tD,token))
 		print "[INFO][cRdC] @%s+%s : %s"%(where,part,info)
 		return info
-	def complexWriteData(self,data,where,part=0,ttype='A',token='FFFFFFFFFFFF'):
+	def complexWriteData(self,data,where,part,ttype='A',token='FFFFFFFFFFFF'):
 		print "[INFO][cWrC] Start"
 		data=data.replace(" ","")
 		if len(data)!=32:
@@ -187,12 +187,37 @@ class cardReader():
 		else:
 			print "Fail"
 		return info
-	def cashRead(self,where,part=0):
-		pass
-	def cashAdd(self,where,part=0,amount=0):
-		pass
-	def cashDel(self,where,part=0,amount=0):
-		pass
+	def cashRead(self,where,part,ttype='A',token='FFFFFFFFFFFF'):
+		where=int2hex(where)
+		part=int2hex(part)
+		if self.verified!=where:
+			self.verifyToken(token,where,ttype)
+		info = self.send("030500%s%s"%(where,part))
+		return info
+	def cashAdd(self,amount,where,part,ttype='A',token='FFFFFFFFFFFF'):
+		where=int2hex(where)
+		part=int2hex(part)
+		if self.verified!=where:
+			self.verifyToken(token,where,ttype)
+		info = self.send("03060100%s%s%s"%(where,part,amount))
+		return info
+	def cashDel(self,amount,where,part,ttype='A',token='FFFFFFFFFFFF'):
+		where=int2hex(where)
+		part=int2hex(part)
+		if self.verified!=where:
+			self.verifyToken(token,where,ttype)
+		info = self.send("03060200%s%s%s"%(where,part,amount))
+		return info
+	def cashInit(self,default,where,part,ttype='A',token='FFFFFFFFFFFF'):
+		where=int2hex(where)
+		part=int2hex(part)
+		if self.verified!=where:
+			self.verifyToken(token,where,ttype)
+		info=self.send("030400%s%s%s"%(where,part,default))
+		return info
+
+
+		
 
 def int2hex(h,length=0):
 	if type(h)==int:
@@ -216,8 +241,8 @@ def checksum(data):
 
 a=cardReader()
 a.complexSelectCard()
-print a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
-print a.complexReadData(14,0,'A','FFFFFFFFFFFF')
+a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
+a.complexReadData(14,0,'A','FFFFFFFFFFFF')
 a.turnAFount(True)
 a.turnBeep(True)
 
