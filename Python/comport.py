@@ -151,6 +151,7 @@ class cardReader():
 		if not self.selectCard:
 			self.complexSelectCard()
 		if len(token)!=12:
+			print "[ERRO][cRdC] Token isnt Vaild : %s"%token			
 			return False
 		if ttype=='A':
 			tD='60'
@@ -165,6 +166,7 @@ class cardReader():
 		print "[INFO][cWrC] Start"
 		data=data.replace(" ","")
 		if len(data)!=32:
+			print "[ERRO][cWrC] Data isnt Vaild : %s"%data
 			return False
 		where=int2hex(where)
 		part=int2hex(part)
@@ -172,6 +174,7 @@ class cardReader():
 		if not self.selectCard:
 			self.complexSelectCard()
 		if len(token)!=12:
+			print "[ERRO][cWrC] Token isnt Vaild : %s"%token
 			return False
 		if ttype=='A':
 			tD='60'
