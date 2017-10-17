@@ -199,7 +199,7 @@ def int2hex(h,length=0):
 	if len(s) % 2:
 		s="0"+s
 	while len(s)<length:
-		s="00"+s
+    		s="00"+s
 	return s
 def checksum(data):
 	n=0
