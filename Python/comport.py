@@ -143,23 +143,13 @@ class cardReader():
 				return "%s\tS70"%(cardID)
 		else:
 			return "Unknown"
-	def readData(self,where,part=0):
-		if self.verified == where:
-			info = self.send("")
-			if info :
-				pass
-		return False
-	def writeData(self,where,part,data):
-		if len(data.decode("hex"))==16:
-			if self.verified == where:
-				self.send("")
-				pass
-				return True
-		return False
 	def complexReadData(self,where,part=0,ttype='A',token='FFFFFFFFFFFF'):
+		print "[INFO][cRdC] Start"
 		where=int2hex(where)
 		part=int2hex(part)
 		token=token.replace(" ","")
+		if not self.selectCard:
+			self.complexSelectCard()
 		if len(token)!=12:
 			return False
 		if ttype=='A':
@@ -169,10 +159,36 @@ class cardReader():
 		else:
 			return False
 		info = self.send("03070000%s%s%s%s"%(where,part,tD,token))
+		print "[INFO][cRdC] @%s+%s : %s"%(where,part,info)
 		return info
-	def cashRead(self,where):
+	def complexWriteData(self,data,where,part=0,ttype='A',token='FFFFFFFFFFFF'):
+		print "[INFO][cWrC] Start"
+		data=data.replace(" ","")
+		if len(data)!=32:
+			return False
+		where=int2hex(where)
+		part=int2hex(part)
+		token=token.replace(" ","")
+		if not self.selectCard:
+			self.complexSelectCard()
+		if len(token)!=12:
+			return False
+		if ttype=='A':
+			tD='60'
+		elif ttype=='B':
+			tD='61'
+		info = self.send("03070100%s%s%s%s%s"%(where,part,tD,token,data))
+		print "[INFO][cWrC] @%s+%s :"%(where,part,info),
+		if info:
+			print "Success"
+		else:
+			print "Fail"
+			return info
+	def cashRead(self,where,part=0):
 		pass
-	def cashAdd(self,where,amount):
+	def cashAdd(self,where,part=0,amount=0):
+		pass
+	def cashDel(self,where,part=0,amount=0):
 		pass
 
 def int2hex(h,length=0):
@@ -197,9 +213,9 @@ def checksum(data):
 
 a=cardReader()
 a.complexSelectCard()
+a.complexWriteData("00112233445566778899AABBCCDDEE",14,0,'A','FFFFFFFFFFFF')
 a.complexReadData(14,0,'A','FFFFFFFFFFFF')
-# a.verifyToken("FFFFFFFFFFFF",14,"A")
-a.turnAFount()
-a.turnBeep()
+a.turnAFount(True)
+a.turnBeep(True)
 
 # s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
