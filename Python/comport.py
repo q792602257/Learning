@@ -186,7 +186,7 @@ class cardReader():
 			print "Success"
 		else:
 			print "Fail"
-			return info
+		return info
 	def cashRead(self,where,part=0):
 		pass
 	def cashAdd(self,where,part=0,amount=0):
@@ -216,8 +216,8 @@ def checksum(data):
 
 a=cardReader()
 a.complexSelectCard()
-a.complexWriteData("00112233445566778899AABBCCDDEE",14,0,'A','FFFFFFFFFFFF')
-a.complexReadData(14,0,'A','FFFFFFFFFFFF')
+print a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
+print a.complexReadData(14,0,'A','FFFFFFFFFFFF')
 a.turnAFount(True)
 a.turnBeep(True)
 
