@@ -178,7 +178,7 @@ class cardReader():
 		elif ttype=='B':
 			tD='61'
 		info = self.send("03070100%s%s%s%s%s"%(where,part,tD,token,data))
-		print "[INFO][cWrC] @%s+%s :"%(where,part,info),
+		print "[INFO][cWrC] @%s+%s :"%(where,part),
 		if info:
 			print "Success"
 		else:
