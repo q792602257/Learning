@@ -30,7 +30,6 @@ class GUIDemo():
 		'User-Agent':
 		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36'  # NOQA
 	}
-
 	headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0','Connection': 'keep-alive',}
 	opener = requests.Session()
 	opener.cookies = http.cookiejar.LWPCookieJar()
