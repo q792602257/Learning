@@ -216,9 +216,6 @@ class cardReader():
 		info=self.send("030400%s%s%s"%(where,part,default))
 		return info
 
-
-		
-
 def int2hex(h,length=0):
 	if type(h)==int:
 		s=hex(h)[2:]
@@ -238,6 +235,12 @@ def checksum(data):
 		s^=d1
 		n+=2
 	return int2hex(s)
+def big2small(data):
+	data=data.replace(" ","")
+	if not len(data)%2:
+		print "[ERRO][BtoS] InVaild Data : %s"%data
+		return False
+	
 
 a=cardReader()
 a.complexSelectCard()
