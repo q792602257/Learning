@@ -241,7 +241,8 @@ def big2small(data,force=False):
 		data=int2hex(data,8)
 	elif type(data)==str and (not force):
 		return data
-	elif type(data)==str and (force):
+	elif type(data
+	)==str and (force):
 		data=int2hex(data,8)
 	if (not len(data)%2) or (len(data)>8):
 		print "[ERRO][BtoS] InVaild Data : %s"%data
