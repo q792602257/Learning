@@ -236,25 +236,24 @@ def checksum(data):
 		n+=2
 	return int2hex(s)
 def big2small(data,force=False):
-	data=data.replace(" ","")
 	if type(data)==int:
 		data=int2hex(data,8)
 	elif type(data)==str and (not force):
 		return data
 	elif type(data)==str and (force):
 		data=int2hex(data,8)
-	if (not len(data)%2) or (len(data)>8):
+	if len(data)%2 or len(data)>8:
 		print "[ERRO][BtoS] InVaild Data : %s"%data
 		return False
+	ret=''
 	for j in range(4):
-		ret=''
-		ret=data[j*2,j*2+2]+ret
+		ret=data[j*2:j*2+2]+ret
 	return ret
-a=cardReader()
-a.complexSelectCard()
-a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
-a.complexReadData(14,0,'A','FFFFFFFFFFFF')
-a.turnAFount(True)
-a.turnBeep(True)
-
+# a=cardReader()
+# a.complexSelectCard()
+# a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
+# a.complexReadData(14,0,'A','FFFFFFFFFFFF')
+# a.turnAFount(True)
+# a.turnBeep(True)
+print big2small(4350)
 # s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
