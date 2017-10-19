@@ -6,23 +6,29 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class socket {
-	protected String api(int no){
+	protected static String api(int no){
         String[] send={"uptime","isNginx","isMysql","dfStat","memStat"};
-        return "jerryadmin{\"method\":\""+send+"\"}";
+        return "jerryadmin{\"method\":\""+send+"\"}1";
     }
-	public void main() throws IOException {
-		Socket s = new Socket("64.137.206.200", 8888);
+	public String sendData(Socket s,String data) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter write = new PrintWriter(s.getOutputStream());
-		String send = this.api(0);
-		write.printf(send);
+		write.printf(data);
 		write.flush();
 		BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		String recv = new String("");
 		String info = null;
 		while((info=in.readLine())!=null){
-			String context=info.substring(10,info.length()-1);
-  			System.out.printf(context);
+			recv += info;
+			System.out.println(info);
 		}
+		return recv;
+	}
+	public static void main(String args[]) throws IOException {
+		Socket s = new Socket("64.137.206.200", 8888);
+		String send = api(0);
+		String recv = new socket().sendData(s,send);
+		System.out.printf(recv);
 		s.close();
 	}
 }

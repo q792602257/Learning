@@ -224,7 +224,7 @@ def int2hex(h,length=0):
 	if len(s) % 2:
 		s="0"+s
 	while len(s)<length:
-    		s="00"+s
+			s="00"+s
 	return s
 def checksum(data):
 	n=0
@@ -235,13 +235,21 @@ def checksum(data):
 		s^=d1
 		n+=2
 	return int2hex(s)
-def big2small(data):
+def big2small(data,force=False):
 	data=data.replace(" ","")
-	if not len(data)%2:
+	if type(data)==int:
+		data=int2hex(data,8)
+	elif type(data)==str and (not force):
+		return data
+	elif type(data)==str and (force):
+		data=int2hex(data,8)
+	if (not len(data)%2) or (len(data)>8):
 		print "[ERRO][BtoS] InVaild Data : %s"%data
 		return False
-	
-
+	for j in range(4):
+		ret=''
+		ret=data[j*2,j*2+2]+ret
+	return ret
 a=cardReader()
 a.complexSelectCard()
 a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
