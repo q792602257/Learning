@@ -8,7 +8,7 @@ import java.net.Socket;
 public class socket {
 	protected static String api(int no){
         String[] send={"uptime","isNginx","isMysql","dfStat","memStat"};
-        return "jerryadmin{\"method\":\""+send+"\"}1";
+        return "jerryadmin{\"method\":\""+send[no]+"\"}1";
     }
 	public String sendData(Socket s,String data) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,7 +17,7 @@ public class socket {
 		write.flush();
 		BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		String recv = new String("");
-		String info = null;
+		String info = new String("");
 		while((info=in.readLine())!=null){
 			recv += info;
 			System.out.println(info);
@@ -27,6 +27,7 @@ public class socket {
 	public static void main(String args[]) throws IOException {
 		Socket s = new Socket("64.137.206.200", 8888);
 		String send = api(0);
+		System.out.println(send);
 		String recv = new socket().sendData(s,send);
 		System.out.printf(recv);
 		s.close();
