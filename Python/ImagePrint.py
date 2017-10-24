@@ -8,10 +8,10 @@ import sqlite3 as sq
 import _winreg as reg
 import glob
 import json
+from time import sleep
 
 class ImagePrint():
-	path=False
-	JobID=False
+	printerName="ImagePrinter"
 	def __init__(self):
 		try:
 			key = reg.OpenKey(reg.HKEY_LOCAL_MACHINE,'SOFTWARE\\Code Industry\\ImagePrinterPro\\')
@@ -19,27 +19,83 @@ class ImagePrint():
 			self.Pre,t=reg.QueryValueEx(key,"image_name")
 			self.Path,t=reg.QueryValueEx(key,"path")
 			print self.JobID,self.Pre,self.Path
+			self.Busy=False
+			self.waitNew=True
 		except Exception as e:
 			sys.exit()
 	def getJobID(self):
-		try:
-			key = reg.OpenKey(reg.HKEY_LOCAL_MACHINE,'SOFTWARE\\Code Industry\\ImagePrinterPro\\')
-			self.JobID,t=reg.QueryValueEx(key,'jobid')
-		except Exception as e:
-			sys.exit()
-		return self.JobID
-	def getPriview(self,filename):
-		pass
+		key = reg.OpenKey(reg.HKEY_LOCAL_MACHINE,'SOFTWARE\\Code Industry\\ImagePrinterPro\\')
+		JobID,t=reg.QueryValueEx(key,'jobid')
+		return JobID
+	def waitNewJob(self):
+		if not self.waitNew:
+			return self.JobID
+		while self.JobID==self.getJobID():
+			sleep(1)
+		self.waitNew=False
+		return self.JobID	
+	def getPriview(self,jobid=False):
+		if jobid:
+			newJobID=jobid
+			JobID=jobid
+		else:
+			self.waitNewJob()
+			JobID=self.JobID
+		while (not os.path.isfile(os.path.join(self.Path,self.Pre+"_%s.png"%(JobID)))) and len(glob.glob(os.path.join(self.Path,self.Pre+"_%s_*.png"%(JobID))))==0:
+			sleep(2)
+		if os.path.isfile(os.path.join(self.Path,self.Pre+"_%s.png"%(JobID))):
+			self.pages=1
+			imgs= [os.path.join(self.Path,self.Pre+"_%s.png"%(JobID))]
+		else:
+			imgs = glob.glob(os.path.join(self.Path,self.Pre+"_%s_*.png"%(JobID)))
+		self.page=len(imgs)
+		return imgs
+	def buildPriview(self,filename):
+		while self.Busy:
+			sleep(1)
+		if os.path.isfile(filename):
+			t = filetypeDetector(filename)
+			cmd = printCommand(t).replace(r"%1",filename).replace(r"%2",self.printerName)
+			print cmd
+			self.Busy=True
+			os.system(cmd)
+			self.waitNew=True
+			self.Busy=False
+			imgs = self.getPriview()
+			self.JobID=self.getJobID()
+			return imgs
+		return False
 class FilePrint():
 	printerName="Unkown"
 	def printFile(self,filename):
-		pass
-# "C:\PROGRAM FILES\FOXIT SOFTWARE\FOXIT READER\FOXITREADER.EXE" /q /t C:\Users\yan1h\Documents\1.pdf "Send To OneNote 2016"
-# "C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE" /q C:\Users\yan1h\Documents\1.xlsx /j "Send To OneNote 2016"
-# "C:\Program Files\Microsoft Office\Root\Office16\WINWORD.EXE" /j "%1" "%2"
-# %SystemRoot%\system32\NOTEPAD.EXE /pt %1
-# "%SystemRoot%\System32\rundll32.exe" "%SystemRoot%\System32\shimgvw.dll",ImageView_PrintTo /pt C:\Users\yan1h\Documents\Learning\wallpaper\19484.jpg "Send To OneNote 2016"
-	
+		if os.path.isfile(filename):
+			t = filetypeDetector(filename)
+			cmd = printCommand(t).replace(r"%1",filename).replace(r"%2",self.printerName)
+			os.popen(cmd)
+def printCommand(t):
+	if t=="Doc":
+		return u'"C:\\Progra~1\\Micros~3\\Office14\\WINWORD.EXE" /j "%1" "%2"'
+	elif t=="Xls":
+		return u'"C:\\Progra~1\\Micros~3\\Office14\\EXCEL.EXE" /q "%1" /j "%2"'
+	elif t=="Ppt":
+		return u'"C:\\Progra~1\\Micros~3\\Office14\\POWERPNT.EXE" /pt "%2" "%1"'
+	elif t=="Pdf":
+		return u'C:\\Progra~1\\FoxitS~1\\FoxitR~1\\FOXITR~1.EXE /q /t "%1" "%2"'
+	elif t=="Img":
+		return u'%SystemRoot%\\System32\\rundll32.exe %SystemRoot%\\System32\\shimgvw.dll,ImageView_PrintTo /pt "%1" "%2"'
+	return False
+def filetypeDetector(filename):
+	if ".doc" in filename:
+		return "Doc"
+	elif ".xls" in filename:
+		return "Xls"
+	elif ".ppt" in filename:
+		return "Ppt"
+	elif ".pdf" in filename:
+		return "Pdf"
+	elif ".jpg" in filename or ".png" in filename:
+		return "Img"
+	return False
 class Socket():
 	addr='0.0.0.0'
 	port=9999
@@ -65,4 +121,5 @@ class Socket():
 			self.con.close()
 	def Send(self,data):
 		pass
-print ImagePrint().getJobID()
+# print ImagePrint().buildPriview('C:\Users\Windows\Documents\RFID.pdf')
+print ImagePrint().getPriview("18")
