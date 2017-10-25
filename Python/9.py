@@ -7,10 +7,16 @@ import signal
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+class code509(Exception):
+	def __init__(self):
+		self.value='code509 Bandwith Exceed'
+	def __str__(self):
+		exit()
+		return repr(self.value)
 class MySQL():
 	def SQLCon(self):
 		self.conn= MySQLdb.connect(
-			host='localhost',
+			host='59.110.234.236',
 			port = 3306,
 			user='root',
 			passwd='cc1123yhq',
@@ -18,6 +24,13 @@ class MySQL():
 			charset="utf8",
 			)
 		self.sql=self.conn.cursor()
+	def SQLDel(self,where):
+		self.SQLCon()
+		self.sql.execute('DELETE FROM `eh` where %s'%where)
+		self.sql.close()
+		self.conn.commit()
+		print "MySQL Del OK"
+		self.conn.close()
 	def SQLAdd(self,col,val):
 		self.SQLCon()
 		self.sql.execute('INSERT INTO `eh` (%s) VALUES (%s)'%(col,val))
@@ -42,7 +55,7 @@ class MySQL():
 			sql="%s `%s`=%s,"%(sql,col.split(",")[j],val.split(",")[j])
 			j+=1
 		sql=sql.strip(",")	
-		self.sql.execute('UPDATE `eh` SET %s where `id`=%s'%(sql,id))
+		self.sql.execute('UPDATE `eh` SET %s where id=%s'%(sql,id))
 		print "MySQL Upd OK"
 		self.sql.close()
 		self.conn.commit()
@@ -50,6 +63,9 @@ class MySQL():
 		return True
 class eHentai(MySQL):
 	page=0
+	url=''
+	q=0
+	proxy=None
 	opener = requests.Session()
 	opener.cookies = http.cookiejar.MozillaCookieJar()
 	headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0',
@@ -57,23 +73,59 @@ class eHentai(MySQL):
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			"Referer": "https://e-hentai.org/",
 			"Connection": "keep-alive"}
+	def proxyGet(self):
+		print 'Getting Proxy'
+		url="http://www.66ip.cn/nmtq.php?getnum=1&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=0&proxytype=1&api=66ip"
+		page=requests.get(url)
+		page.encoding="gbk"
+		html=page.text
+		m=re.findall(r"((\d{1,3}\.){3}\d{1,3}:\d{1,5})",html)
+		try:
+			print 'Proxy :\t%s'%m[0][0],
+			ret={"http":"http://"+m[0][0],
+				"https":"http://"+m[0][0]}
+			return ret
+		except Exception as e:
+			return self.proxyGet()
+	def getValidProxy(self):
+		proxy=self.proxyGet()
+		url="https://www.e-hentai.org"
+		try:
+			page=requests.get(url,proxies=proxy,timeout=10)
+			html=page.text
+			if 'Cloudflare Ray ID' in html:
+				print html
+				raise NameError
+			print 'OK'
+			return proxy
+		except Exception as e:
+			print 'Failed'
+			time.sleep(1)
+			return self.getValidProxy()
 	def eLogin(self):
 		# print "Start Login"
 		url = "https://forums.e-hentai.org/index.php?act=Login&CODE=01"
 		data= {"CookieDate":1,"UserName":"yxzyxz123456","PassWord":"yxzyxz123456"}
-		page= self.opener.post(url,data=data,headers=self.headers)
+		page= self.opener.post(url,data=data,headers=self.headers,proxies=self.proxy)
 		if page.text.find("yxzyxz123456") >= 0:
 			print "login Success"
 			return True
 		else:
 			print "Login Failed"
 			return False
-	def getHtml(self,url,data=None):
-		time.sleep(5)
-		page = self.opener.get(url,headers=self.headers)
-		page.encoding="utf-8"
-		html = page.text
-		return html
+	def getHtml(self,url):
+		try:
+			page=self.opener.get(url,headers=self.headers,proxies=self.proxy,timeout=20)
+			page.encoding="utf-8"
+			html = page.text
+			if 'Cloudflare Ray ID' in html:
+				print html
+				raise NameError
+			return html
+		except Exception as e:
+			print e
+			self.proxy=self.getValidProxy()
+			return self.getHtml(url)
 	def quit(self,signal=None, frame=None):
 		self.SQLUpdate("resume,url,q","1,%s,%s"%(self.url,self.q),self.id)
 		sys.exit()
@@ -81,35 +133,36 @@ class eHentai(MySQL):
 		if not os.path.exists(os.path.join("eH",self.id)):
 			os.makedirs(os.path.join("eH",self.id))
 		if not os.path.exists(os.path.join("eH",self.id,"%s.jpg"%self.q)):
-			if os.path.getsize(os.path.join("eH",self.id,"%s.jpg"%self.q))=28658:
-				page = self.opener.get(url,headers=self.headers,timeout=15)
-				data = page.content
+			
+			time.sleep(1)
+			page = self.opener.get(url,headers=self.headers,timeout=15,proxies=self.proxy)
+			data = page.content
+			if len(data)==28658:
+				raise code509()
+			else:
 				with open(os.path.join("eH",self.id,"%s.jpg"%self.q),"wb") as f:
 					f.write(data)
 					print "OK"
-			else:
-				print "Exist"
 		else:
 			print "Exist"
 	def resume(self):
 		res=self.SQLQuery("url,id,q,quote","where `resume`=1")
 		for each in res:
-			print '----resume Download'
-			self.id = str(each[1])
-			if each[2]:
-				self.q=int(each[2])
+			if each[2] and "http" in each[0]:
+				print '---resume Download'
+				self.q=each[2]
+				self.id = str(each[1])
 				self.url=each[0]
 				self.imgHandler(self.url)
 			else:
 				self.q=1
+				self.id=str(each[1])
 				self.url=self.imgHrefHandler(each[3])
 				if self.url:
 					self.imgHandler(self.url)
-				else:
-					print "----Next Time"
-			print "----Complete"
+		print "---Complete"
 	def imgHandler(self,url1):
-		print "%9d"%(self.q) ,
+		print "%9d"%(self.q),
 		html = self.getHtml(url1)
 		soup = BeautifulSoup(html,"html.parser")
 		try:
@@ -124,15 +177,26 @@ class eHentai(MySQL):
 			else:
 				print "Finish"
 				self.SQLUpdate("resume,url,q","0,'',0",self.id)
+				self.url=None
+				self.q=0
 				return True
+		except code509:
+			print 'Expected 509\nTry another Proxy'
+			self.proxy=self.getValidProxy()
+			#time.sleep(10000)
+			print 'And Retry'
+			self.imgHandler(self.url)
 		except Exception as e:
-			print "ERROR"
+			print "ERROR@imgH"
+			print e
 			# print soup.get_text()
 			self.SQLUpdate("resume,url,q","1,'%s',%s"%(self.url,self.q),self.id)
-			print e
+			self.q=0
+			self.url=None
 			return False
-	def listHandler(self):
+	def listHandler(self,page=0):
 		ret=[]
+		self.page=page
 		while True:
 			print "Reading Page %s"%self.page
 			html = self.getHtml("https://e-hentai.org/?page=%s"%self.page)
@@ -148,16 +212,17 @@ class eHentai(MySQL):
 					ret.append(t)
 			except IndexError:
 				print html
-				print "Wait 10 Min",
-				sleep(600)
+				print "Chang a Proxy"
+				self.proxy=getValidProxy()
 				print "And Retry"
 			print "Finish Reading Threads"
 			self.threadHandler(ret)
-			print "Wait For 3 Minute\t",
-			if self.page>20:
-				self.page=0
+			print "Wait For 0 Minute"
 			self.page+=1
-			time.sleep(180)
+			if self.page%5==4:
+				self.resume()
+				#self.page=0
+			time.sleep(1)
 			print "And Continue"
 	def threadHandler(self,ret):
 		for thread in ret:
@@ -169,7 +234,7 @@ class eHentai(MySQL):
 			print self.title
 			if not self.SQLQuery("id","where `id`=%s"%thread['id']):
 				self.SQLAdd("id,title,catagory,quote","%s,'%s','%s','%s'"%(self.id,self.title,self.cata,MySQLdb.escape_string(thread['url'])))
-			if not self.SQLQuery("id","where `id`=%s and `resume`=0"%thread['id']):
+			if not self.SQLQuery("id","where id=%s and `resume`=0"%thread['id']):
 				url = self.imgHrefHandler(thread['url'])
 				if url:
 					self.imgHandler(url)					
@@ -181,6 +246,7 @@ class eHentai(MySQL):
 	def imgHrefHandler(self,url):
 		html = self.getHtml(url)
 		soup = BeautifulSoup(html,"html.parser")
+		print '-Starting Download'
 		if len(soup.find_all(class_="gdtl")) != 0:
 			url = soup.find_all(class_="gdtl")[0].select("a")[0]["href"]
 			return url
@@ -188,15 +254,20 @@ class eHentai(MySQL):
 			url = soup.find_all(class_="gdtm")[0].select("a")[0]["href"]
 			return url
 		else:
-			print soup.get_text()
+			self.SQLDel('id=%s'%self.id)
 			print "Failed"
 			return False
 				
 	def main(self):
-		self.eLogin()
 		try:
+			self.proxy=self.getValidProxy()
+			self.eLogin()
 			self.resume()
-			self.listHandler()
+			self.listHandler('10')
+		except code509:
+			print 'Excepted 509\nWait 3 Hour',
+			time.sleep(9600)
+			print '\tAnd Retry'
 		except Exception as e:
 			print e
 			print "\nWait 2 Minute..."
