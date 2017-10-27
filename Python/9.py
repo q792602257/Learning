@@ -7,6 +7,42 @@ import signal
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+def proxyGet(prox=None):
+	print 'Getting Proxy'
+	url="http://www.66ip.cn/nmtq.php?getnum=1&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=0&proxytype=1&api=66ip"
+	head = {
+		'Cache-Control':'no-cache',
+		'Connection':'keep-alive',
+		'Referer':'http://www.66ip.cn',
+		'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.91 Safari/537.36'}
+	page=requests.get(url,headers=head,timeout=15,proxies=prox)
+	page.encoding="gbk"
+	html=page.text
+	m=re.findall(r"((\d{1,3}\.){3}\d{1,3}:\d{1,5})\D",html)
+	try:
+		print 'Proxy :\t%s'%m[0][0],
+		ret={"http":"http://"+m[0][0],
+			"https":"http://"+m[0][0]}
+		return ret
+	except Exception as e:
+		return proxyGet()
+
+def getValidProxy():
+	proxy=proxyGet()
+	url="https://www.e-hentai.org"
+	try:
+		page=requests.get(url,proxies=proxy,timeout=10)
+		html=page.text
+		if 'Cloudflare Ray ID' in html:
+			print html
+			raise NameError
+		print 'OK'
+		return proxy
+	except Exception as e:
+		print 'Failed'
+		time.sleep(1)
+		return getValidProxy()
+
 class code509(Exception):
 	def __init__(self):
 		self.value='code509 Bandwith Exceed'
@@ -73,35 +109,6 @@ class eHentai(MySQL):
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			"Referer": "https://e-hentai.org/",
 			"Connection": "keep-alive"}
-	def proxyGet(self):
-		print 'Getting Proxy'
-		url="http://www.66ip.cn/nmtq.php?getnum=1&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=0&proxytype=1&api=66ip"
-		page=requests.get(url)
-		page.encoding="gbk"
-		html=page.text
-		m=re.findall(r"((\d{1,3}\.){3}\d{1,3}:\d{1,5})",html)
-		try:
-			print 'Proxy :\t%s'%m[0][0],
-			ret={"http":"http://"+m[0][0],
-				"https":"http://"+m[0][0]}
-			return ret
-		except Exception as e:
-			return self.proxyGet()
-	def getValidProxy(self):
-		proxy=self.proxyGet()
-		url="https://www.e-hentai.org"
-		try:
-			page=requests.get(url,proxies=proxy,timeout=10)
-			html=page.text
-			if 'Cloudflare Ray ID' in html:
-				print html
-				raise NameError
-			print 'OK'
-			return proxy
-		except Exception as e:
-			print 'Failed'
-			time.sleep(1)
-			return self.getValidProxy()
 	def eLogin(self):
 		# print "Start Login"
 		url = "https://forums.e-hentai.org/index.php?act=Login&CODE=01"
@@ -124,7 +131,7 @@ class eHentai(MySQL):
 			return html
 		except Exception as e:
 			print e
-			self.proxy=self.getValidProxy()
+			self.proxy=getValidProxy()
 			return self.getHtml(url)
 	def quit(self,signal=None, frame=None):
 		self.SQLUpdate("resume,url,q","1,%s,%s"%(self.url,self.q),self.id)
@@ -136,6 +143,8 @@ class eHentai(MySQL):
 			
 			time.sleep(1)
 			page = self.opener.get(url,headers=self.headers,timeout=15,proxies=self.proxy)
+			if 'html' in page.headers["Content-Type"]:
+				raise code509()
 			data = page.content
 			if len(data)==28658:
 				raise code509()
@@ -182,7 +191,7 @@ class eHentai(MySQL):
 				return True
 		except code509:
 			print 'Expected 509\nTry another Proxy'
-			self.proxy=self.getValidProxy()
+			self.proxy=getValidProxy()
 			#time.sleep(10000)
 			print 'And Retry'
 			self.imgHandler(self.url)
@@ -198,7 +207,7 @@ class eHentai(MySQL):
 		ret=[]
 		self.page=page
 		while True:
-			print "Reading Page %s"%self.page
+			print "Reading Page %d"%self.page
 			html = self.getHtml("https://e-hentai.org/?page=%s"%self.page)
 			asoup = BeautifulSoup(html,"html.parser")
 			try:
@@ -219,7 +228,7 @@ class eHentai(MySQL):
 			self.threadHandler(ret)
 			print "Wait For 0 Minute"
 			self.page+=1
-			if self.page%5==4:
+			if self.page%3==2:
 				self.resume()
 				#self.page=0
 			time.sleep(1)
@@ -260,10 +269,11 @@ class eHentai(MySQL):
 				
 	def main(self):
 		try:
-			self.proxy=self.getValidProxy()
+			#self.proxy={'https':'http://45.62.238.199:48888'}
+			self.proxy=getValidProxy()
 			self.eLogin()
-			self.resume()
-			self.listHandler('10')
+			#self.resume()
+			self.listHandler(27)
 		except code509:
 			print 'Excepted 509\nWait 3 Hour',
 			time.sleep(9600)
