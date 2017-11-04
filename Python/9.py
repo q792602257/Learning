@@ -9,7 +9,7 @@ sys.setdefaultencoding('utf8')
 
 def proxyGet(prox=None):
 	print 'Getting Proxy'
-	url="http://www.66ip.cn/nmtq.php?getnum=1&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=0&proxytype=1&api=66ip"
+	url="http://www.66ip.cn/nmtq.php?getnum=1&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=0&proxytype=2&api=66ip"
 	head = {
 		'Cache-Control':'no-cache',
 		'Connection':'keep-alive',
@@ -18,20 +18,21 @@ def proxyGet(prox=None):
 	page=requests.get(url,headers=head,timeout=15,proxies=prox)
 	page.encoding="gbk"
 	html=page.text
-	m=re.findall(r"((\d{1,3}\.){3}\d{1,3}:\d{1,5})\D",html)
+	m=re.findall(r"((\d{1,3}\.){3}\d{1,3}:\d{1,5})",html)
 	try:
 		print 'Proxy :\t%s'%m[0][0],
 		ret={"http":"http://"+m[0][0],
 			"https":"http://"+m[0][0]}
 		return ret
 	except Exception as e:
-		return proxyGet()
+		print e
+		return proxyGet(prox)
 
-def getValidProxy():
-	proxy=proxyGet()
+def getValidProxy(prox=None):
+	proxy=proxyGet(prox)
 	url="https://www.e-hentai.org"
 	try:
-		page=requests.get(url,proxies=proxy,timeout=10)
+		page=requests.get(url,proxies=proxy,timeout=10,verify=False)
 		html=page.text
 		if 'Cloudflare Ray ID' in html:
 			print html
@@ -39,9 +40,10 @@ def getValidProxy():
 		print 'OK'
 		return proxy
 	except Exception as e:
+		print e
 		print 'Failed'
 		time.sleep(1)
-		return getValidProxy()
+		return getValidProxy(prox)
 
 class code509(Exception):
 	def __init__(self):
@@ -155,13 +157,16 @@ class eHentai(MySQL):
 		else:
 			print "Exist"
 	def resume(self):
-		res=self.SQLQuery("url,id,q,quote","where `resume`=1")
+		res=self.SQLQuery("url,id,q,quote","where `resume`=1 order by id desc")
 		for each in res:
 			if each[2] and "http" in each[0]:
 				print '---resume Download'
 				self.q=each[2]
 				self.id = str(each[1])
 				self.url=each[0]
+				if len(self.SQLQuery('id','where resume=0 and id={}'.format(self.id)))>0:
+					print 'Exist'
+					continue
 				self.imgHandler(self.url)
 			else:
 				self.q=1
@@ -269,14 +274,15 @@ class eHentai(MySQL):
 				
 	def main(self):
 		try:
-			#self.proxy={'https':'http://45.62.238.199:48888'}
+			#self.proxy={'http':'http://45.62.238.199:48888',
+				#'https':'http://45.62.238.199:48888'}
 			self.proxy=getValidProxy()
 			self.eLogin()
-			#self.resume()
-			self.listHandler(27)
+			self.resume()
+			self.listHandler(100)
 		except code509:
 			print 'Excepted 509\nWait 3 Hour',
-			time.sleep(9600)
+			time.sleep(9)
 			print '\tAnd Retry'
 		except Exception as e:
 			print e
