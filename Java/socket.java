@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class socket {
 	protected static String api(int no){
-        String[] send={"uptime","isNginx","isMysql","dfStat","memStat"};
+        String[] send={"upTime","isNginx","isMysql","dfStat","memStat"};
         return "jerryadmin{\"method\":\""+send[no]+"\"}1";
     }
 	public String sendData(Socket s,String data) throws IOException {
@@ -20,7 +20,6 @@ public class socket {
 		String info = new String("");
 		while((info=in.readLine())!=null){
 			recv += info;
-			System.out.println(info);
 		}
 		return recv;
 	}
@@ -29,7 +28,7 @@ public class socket {
 		String send = api(0);
 		System.out.println(send);
 		String recv = new socket().sendData(s,send);
-		System.out.printf(recv);
+		System.out.println(recv);
 		s.close();
 	}
 }
