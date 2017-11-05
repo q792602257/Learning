@@ -5,6 +5,8 @@ from keras.models import Sequential
 from keras.layers import Dense,Activation,Convolution2D,MaxPooling2D,Flatten
 from keras.optimizers import Adam
 
+#CNN神经网络
+
 def a():
     (X,Y),(X_t,Y_t)=mnist.load_data()
     X=X.reshape(-1,1,28,28)
@@ -14,16 +16,16 @@ def a():
 
     model = Sequential()
 
-    model.add(Convolution2D(nb_filter=32, nb_row=16, nb_col=16,
-                            border_mode='same', input_shape=(1, 28, 28)))
+    model.add(Convolution2D(filters=56, kernel_size=(7,7),
+                            padding='same', input_shape=(1, 28, 28)))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=(2, 2),strides=(1,1),border_mode='same'))
-    model.add(Convolution2D(nb_filter=32, nb_row=8, nb_col=8,
-                            border_mode='same'))
+    model.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
+    model.add(Convolution2D(filters=56, kernel_size=(7,7),
+                            padding='same'))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=(2, 2),border_mode='same'))
+    model.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
 
     model.add(Flatten())
     model.add(Dense(1024))
@@ -36,13 +38,9 @@ def a():
     model.compile(optimizer=O,loss='categorical_crossentropy',metrics=["accuracy"])
 
     print("---------------------------------")
-    model.fit(X,Y,nb_epoch=2,batch_size=64)
+    model.fit(X,Y,epochs=2,batch_size=64)
     print("---------------------------------")
     Los,Acc=model.evaluate(X_t,Y_t)
-    print ('Loss:\t',Los)
-    print ('Acc :',Acc)
-
-
-(X, Y), (X_t, Y_t) = mnist.load_data()
-print (X[0])
-print (Y[0])
+    print ('\nLoss:\t',Los)
+    print ('Acc :\t',Acc)
+a()
