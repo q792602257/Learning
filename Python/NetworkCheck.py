@@ -37,31 +37,39 @@ def ping(ip,port,timeout=2):
 		cs.settimeout(timeout)
 		if status != 0:
 			return False
-		else:
-			return True	
+		return True	
 	except Exception as e:
-		print ("error:%s" %e)
+		print ("error:%s"%e)
 		return False
-laststate=0
+def networkCheck():
+	url="http://www.baidu.com"
+	page=requests.get(url)
+	page.encoding="gbk"
+	a ="根据安全策略，禁止共享网络行为，您的网络连接已被限制。请停止共享网络，并重新进行上网认证，否则您将被强制下线，谢谢合作！"
+	if a in page.text:
+		print ("Server Blocked")
+		return False
+	return True
+
+
+laststate = 0
 while True:
 	s = wanstat()
 	sleep(5)
 	if s == "0":
 		laststate = 0
-		if not ping("baidu.com",80,5):
+		if not networkCheck():
 			reconnect()
 		sleep(5)
 	elif s == "1":
-		print ("Unplugged Cable")
+		print("Unplugged Cable")
 		laststate = 1
 		sleep(120)
 	elif s == "7":
-		print ("Disconnected")
+		print("Disconnected")
 		laststate = 7
 		sleep(5)
 		reconnect()
 	else:
-		print ("Unkown status:",s)
-
-
+		print("Unkown status:%s"%s)
 
