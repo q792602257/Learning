@@ -40,7 +40,7 @@ def vote(code="081WWjJd0rVjLz1E2SKd0sJYId0WWjJS"):
 		imgcontent = imgpage.content
 		with open("temp.jpg","wb") as f:
 			f.write(imgcontent)
-		code = input("Please Input The Code:\t")
+		code = raw_input("Please Input The Code:\t")
 		if code == "r" or code == "":
 			continue
 		else:
@@ -94,7 +94,7 @@ def getCode(url):
 	return ""
 
 while True:
-	url=input("Input Wechat Url(q:Exit)\t")
+	url=raw_input("Input Wechat Url(q:Exit)\t")
 	if url=="q":
 		print ("You Want Exit,and Let it Go!")
 		break
