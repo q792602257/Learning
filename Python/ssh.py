@@ -107,4 +107,17 @@ def Monitor():
 			print s.Exit(i)
 		else:
 			print "%s\tThe Server Has Failed."%i
-Monitor()
+#Monitor()
+def Cracker():
+	s=ssh()
+	ip="emgjhk.com"
+	port=22
+	a = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890"
+	for i in a:
+		for j in a:
+			for k in a:
+				for l in a:
+					for m in a:
+						print "%s%s%s%s%s\t\t\r"%(i,j,k,l,m),
+
+Cracker()
