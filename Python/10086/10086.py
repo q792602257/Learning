@@ -9,13 +9,13 @@ import re
 from flask import Flask
 from flask import render_template as T
 from flask import request as R
+reload(sys)
+sys.setdefaultencoding("utf8")
 
 app=Flask(__name__)
-
 @app.route("/")
 def indexPage():
 	return T("index.html")
-
 @app.route("/vote",methods=["GET"])
 def startVote():
 	openid = R.args.get("openid","")
@@ -24,18 +24,20 @@ def startVote():
 		return T("step1.html", openid=openid)
 	text = vote(openid,icode)
 	return buildPage(text)
-
 @app.route("/step1",methods=["GET"])
 def step1():
 	url = R.args.get("url","")
-	code = getCode(url)
-	openid=getOpenID(code)
+	code= R.args.get("code", "")
+	openid = R.args.get("openid", "")
+	if openid=="":
+		code = getCode(url)
+		openid=getOpenID(code)
+	downimg(openid)
 	if not openid:
+		print openid
 		return T("error.html")
 	return T("step1.html",openid=openid,code=code)
-
 def getOpenID(code):
-	return "09814308103"
 	h2 = {"Connection": "keep-alive",
             "Referer": "https://health.10086.cn/questionnaire/index.html?code=%s&state=1" % (code),
             "Accept": "application/json, text/javascript, */*; q=0.01",
@@ -56,15 +58,16 @@ def getOpenID(code):
 	if openid == "":
 		print("The Code Has Been Used!")
 		return False
+	return openid
 def downimg(openid):
 	ts="%d"%(int(time.time()*1000))
 	imgurl = "https://health.10086.cn/sfi/s/code/%s/getImageCode?openId=%s"%(ts,openid)
+	print openid
 	imgpage = requests.get(imgurl)
 	imgcontent = imgpage.content
-	with open("static/temp.jpg","wb") as f:
+	with open("static/imgs/temp.jpg","wb") as f:
 		f.write(imgcontent)
 def vote(openid,icode):
-	return "ALL OKOKOKOK"
 	headers={"Accept":"application/json, text/javascript, */*; q=0.01",
 			"Accept-Encoding":"gzip, deflate, br",
 			"Accept-Language":"zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
@@ -126,12 +129,11 @@ def buildPage(text):
 def getCode(url):
 	url=url.strip('"').strip("'")
 	if url.startswith("https://"):
-		url = re.findall(r"\?code=(.{32})&",url)[0]
+		url = re.findall(r"\?code=(.{32})",url)[0]
 	if len(url)==32:
 		return url
 	print ("Cant Get A Valid Code!!!")
 	return ""
-
 app.run("0.0.0.0",8901)
 while False:
 	url=raw_input("Input Wechat Url(q:Exit)\t")

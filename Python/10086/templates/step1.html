@@ -1,0 +1,24 @@
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+</head>
+
+<body>
+    <h2>验证码：实在认不出就重新获取</h2><br>
+    <hr>
+    <form action="vote">
+        <input type="hidden" name="code" value="{{code}}" />
+        <input type="hidden" name="openid" value="{{openid}}" />
+        <img src="static/imgs/temp.jpg" /><br/>
+        <input type="text" name="icode" placeholder="验证码" />
+        <button>提交</button>
+    </form>
+    <form action="step1">
+        <input type="hidden" name="code" value="{{code}}" />
+        <input type="hidden" name="openid" value="{{openid}}" />
+        <button>刷新验证码</button>
+    </form>
+</body>

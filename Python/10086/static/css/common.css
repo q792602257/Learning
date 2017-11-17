@@ -1,0 +1,134 @@
+/**
+ *	请使用rem替代px
+ * 	请使用rem替代px
+ * 	请使用rem替代px
+ * 	请使用rem替代px
+ * 	请使用rem替代px
+ * 	重要的事情说5遍。。。不管width height font-size 只要不用百分比。。就用rem
+ **/
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-break: break-all;
+  -webkit-user-select:auto;
+}
+
+html{
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	font-size: 20px;
+}
+body{
+	padding: 0;
+	margin: 0;
+	font-family: "微软雅黑","Helvetica","Arial" !important;
+	background-color: #F9F9F9;
+}
+ul{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+input,button,textarea,select,div{
+	outline:medium;
+}
+textarea{
+	resize: none;
+}
+label {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.point5{
+	position: relative;
+}
+.point5::before{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    display: block;
+    background: #ddd;
+    content: '';
+    -webkit-transform-origin: left bottom;
+    transform-origin: left bottom;
+    -webkit-transform: scaleY(.5);    
+ }
+.hjk-container{
+	font-size: 0.7rem;
+	padding: 0;
+	margin: 0;
+}
+.hjk-header{
+	background-color: white;
+	height: 2rem;
+	padding: 0;
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+}
+.hjk-content{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 2rem;
+	bottom: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.hjk-btn-rtn{
+	position: absolute;
+    z-index: 1;
+    height: 2rem;
+    width: 3.4rem;
+    padding-left: 0.5rem;
+    background-image: url(../imgs/common/rtn-bg.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 0 0;
+}
+.hjk-btn-rtn:active,
+.hjk-btn-rtn:focus{
+    /*box-shadow: inset 0 0.15rem 0.25rem rgba(0,0,0,.15);*/
+}
+.hjk-prev {
+		background-image: url(../imgs/common/prev.png);
+    background-repeat: no-repeat;
+    width: 0.8rem;
+    height: 0.8rem;
+    background-size: 0.45rem;
+    background-position: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+.hjk-btn-rtn span{
+	font-size: 0.7rem;
+    line-height: 1.9rem;
+}
+.hjk-header-title-container{
+	color:#808080;
+	text-align: center;
+	font-size: 0.85rem;
+	line-height: 2.1rem;
+}
+.hjk-btn-duArrow {
+	background-image: url(../imgs/medicine/du-arrow.png);
+	background-repeat: no-repeat;
+	width: 0.95rem;
+	height: 0.5rem;
+	display: inline-block;
+	background-size: 100%;
+	background-position: 0 -0.6rem;
+	vertical-align: bottom;
+}
+.hjk-btn-uArrow{
+	background-position: 0 0px;
+}
+.hjk-btn-rtn > div{
+	padding-top: 0.45rem;
+}

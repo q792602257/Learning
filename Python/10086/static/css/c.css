@@ -1,0 +1,507 @@
+.area-container {
+    width: 100%;
+    padding: 1.8rem 0 0 0;
+    background-color: #F2F3F6;
+    height: 4.9rem;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+.validate-container,
+.success-container {
+    z-index: 30;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    display: none;
+}
+
+.validate-container .bg {
+    width: 100%;
+    height: 100%;
+    background-color: #333333;
+    opacity: 0.45;
+}
+
+.validate-frame-container {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 8.3rem;
+}
+
+.validate-frame-container>div {
+    width: 12rem;
+    display: inline-block;
+    position: relative;
+}
+
+.validate-bg {
+    width: 100%;
+}
+
+.cancel,
+.ok {
+    position: absolute;
+    height: 2rem;
+    width: 50%;
+    top: 5.8rem;
+    z-index: 2;
+}
+
+.ok {
+    right: 0;
+}
+
+.validate-input {
+    position: absolute;
+    width: 4.9rem;
+    height: 1.7rem;
+    top: 1.95rem;
+    left: 1.05rem;
+    border: none;
+    padding: 0 0.4rem;
+}
+
+.success-container {
+    background-color: white;
+    overflow-y: auto;
+}
+
+.mvalidate-input {
+    width: 100%;
+    padding: 0.5rem 4.5rem 0.5rem 0.5rem;
+    border: 1px solid #e6e6e6;
+}
+
+.weiwei-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e6e6e6;
+}
+
+.get-validate-btn {
+    padding: 0.2rem;
+    background-color: white;
+    border: none;
+    color: #a9a9a9;
+    position: absolute;
+    right: 0.90rem;
+    top: 0.95rem;
+    color: #24B2FC;
+    margin-top: 0.2rem;
+}
+
+.get-validate-btn.disabled {
+    color: #B2B2B2;
+}
+
+i.radio {
+    background-image: url(../imgs/icon_radio.png);
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    position: relative;
+    background-size: 220%;
+    background-repeat: no-repeat;
+    top: 0.25rem;
+}
+
+i.radio.active {
+    background-position: 100%;
+}
+
+i.checkbox {
+    background-image: url(../imgs/icon_checkbox.png);
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    position: relative;
+    background-size: 220%;
+    background-repeat: no-repeat;
+    top: 0.25rem;
+}
+
+i.checkbox.active {
+    background-position: 100%;
+}
+
+
+/*qs select custom*/
+
+.qs-select {
+    background-color: white;
+    margin: 0 0 0.8rem 0;
+    position: relative;
+}
+
+.qs-select .arrow {
+    background-image: url(../imgs/icon_arrow.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    right: 0.7rem;
+    top: 0.7rem;
+}
+
+.qs-select>.content-container {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    text-align: center;
+}
+
+.qs-select>.content-container .content-wrap {
+    position: relative;
+    width: 70%;
+    background-color: white;
+    z-index: 4;
+    top: 3rem;
+    display: inline-block;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    max-height: 63%;
+    overflow-y: scroll;
+}
+
+.qs-select>.content-container .content>div {
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.qs-select i.radio {
+    margin-right: 0.6rem;
+}
+
+.qs-select>.content-container .content>div:last-child {
+    border-bottom: none;
+}
+
+.qs-select>.content-container .content-wrap .btns-container {
+    height: 1rem;
+}
+
+.qs-select>.content-container>.background {
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333333;
+}
+
+.qs-select>.title {
+    color: #B2B2B2;
+    padding: 0.7rem 1rem;
+}
+
+
+/*success frame*/
+
+.success-frame {
+    width: 100%;
+    /*height: 100%;*/
+    display: inline-block;
+}
+
+body {
+    background-color: white;
+}
+
+.progress-bar-container {
+    padding: 0.8rem;
+    height: 2.4rem;
+    position: fixed;
+    width: 100%;
+    z-index: 20;
+    opacity: 1;
+    background-color: #F2F3F6;
+}
+
+.progress-bar {
+    float: left;
+    width: 83%;
+    height: 0.8rem;
+    background-color: #dcdcdc;
+}
+
+.progress-bar-text {
+    font-size: 0.8rem;
+    color: #FDBD69;
+    line-height: 0.8rem;
+    float: left;
+    width: 17%;
+    text-align: center;
+}
+
+.progress-bar .yellow {
+    background-color: #FDBD69;
+    float: left;
+    height: 100%;
+}
+
+.subject-container {
+    background-color: white;
+    position: absolute;
+    top: 2.4rem;
+    bottom: 2.2rem;
+    left: 0;
+    right: 0;
+    padding-bottom: 1rem;
+    overflow: auto;
+}
+
+.subject-item {
+    padding: 0.8rem 0.8rem 0 0.8rem;
+}
+
+.subject-title {
+    color: #333333;
+    font-size: 0.8rem;
+}
+
+.subject-answer-container>div {
+    padding: 0.8rem 0.8rem 0 0.8rem;
+    color: #808080;
+    font-size: 0.7rem;
+}
+
+.r-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e6e6e6;
+}
+
+.submit-container {
+    height: 2.2rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 2;
+    display: none;
+}
+
+.step-container {
+    height: 2.2rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 20;
+    opacity: 1;
+}
+
+.prev {
+    width: 50%;
+    height: 100%;
+    border: none;
+    border-top: 1px solid #24b2fc;
+    background-color: white;
+    color: #24b2fc;
+    font-size: 0.8rem;
+    float: left;
+}
+
+.next {
+    width: 50%;
+    height: 100%;
+    border: none;
+    background-color: #24b2fc;
+    color: white;
+    font-size: 0.8rem;
+    float: left;
+}
+
+.next.block {
+    width: 100%;
+}
+
+.next.disabled {
+    background-color: #CCC;
+}
+
+.submit-container>.submit {
+    width: 50%;
+    height: 100%;
+    border: none;
+    background-color: #ccc;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.submit-container>.submit.active {
+    background-color: #24b2fc;
+}
+
+.select-hospital {
+    width: 100%;
+    height: 2.1rem;
+    background-color: white;
+    border: 1px solid #24b2fa;
+    color: #24b2fa;
+    font-size: 0.7rem;
+}
+
+.r-select {
+    width: 100%;
+    padding: 0.4rem;
+    margin: 0.4rem 0 0 0;
+    border: 1px solid #e6e6e6;
+    font-size: 0.8rem;
+}
+
+.validate-img {
+    position: absolute;
+    width: 4.7rem;
+    height: 1.9rem;
+    top: 1.9rem;
+    right: 0.8rem;
+}
+
+.subject-title-skip {
+    color: #D0D0D0;
+    font-size: 0.8rem;
+}
+
+.subject-answer-container-skip>div {
+    padding: 0.8rem 0.8rem 0 0.8rem;
+    color: #D0D0D0;
+    font-size: 0.7rem;
+}
+
+.require-star-empty {
+    display: none;
+}
+
+.areaSelectText {
+    padding: 0.7rem 0 0.7rem 1rem;
+    background: white;
+    background-image: url(../imgs/icon_arrow.jpg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 7%;
+}
+
+.allArea-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 23;
+    color: #333;
+    display: none;
+}
+
+.allArea-container .a-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #333333;
+    opacity: 0.4;
+}
+
+.city-container {
+    width: 100%;
+    height: 16.1rem;
+    position: relative;
+}
+
+.city-container>div {
+    width: 33.33333333%;
+    float: left;
+    height: 100%;
+    background-color: white;
+    overflow: auto;
+}
+
+.city-container .city1 {
+    background-color: #f5f6f7;
+}
+
+.city-name {
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0.8rem 0;
+}
+
+.city-name.active {
+    background-color: white;
+    color: #24b2fb;
+}
+
+.t6-add {
+    background-image: url(../imgs/icon_add.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1.05rem;
+    height: 1.15rem;
+    background-size: 100%;
+}
+
+.t6-del {
+    background-image: url(../imgs/icon_del.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1.05rem;
+    height: 1.15rem;
+    background-size: 100%;
+    position: relative;
+    left: 1rem;
+    top: 0.35rem;
+}
+
+.t6-add-text {
+    color: #25bef1;
+    font-size: 0.8rem;
+    position: relative;
+    top: -0.35rem;
+    left: 0.5rem;
+}
+
+.t6-container {
+    position: relative;
+    padding-bottom: 2rem !important;
+}
+
+.t6-add-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-right: 0.8rem;
+}
+
+.t6-input {
+    padding: 0.3rem;
+    border: 1px solid #e6e6e6;
+    width: 100%;
+    margin: 0.2rem 0;
+}
+
+.t6-input.candel {
+    width: 80%;
+}
+
+i.checkbox {
+    margin-right: 0.3rem;
+}
+
+.drug-container {
+    margin-top: 1.4rem;
+}
+
+.drug-container:first-child {
+    margin-top: 0;
+}
