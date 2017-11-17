@@ -251,8 +251,8 @@ def big2small(data,force=False):
 	return ret
 a=cardReader()
 a.complexSelectCard()
-a.complexWriteData("00112233445566778899AABBCCDDEEFF",14,0,'A','FFFFFFFFFFFF')
-a.complexReadData(14,0,'A','FFFFFFFFFFFF')
+a.complexReadData(11, 1, 'B', '59687E737241')
+
 a.turnAFount(True)
 a.turnBeep(True)
 # print big2small(4350)

@@ -96,8 +96,8 @@ def dnnContinueTrain():
     model = load_model("dnn.h5")
     model.summary()
     (X, Y), (X_t, Y_t) = mnist.load_data()
-    X = X.reshape(-1, 1, 28, 28).astype('float32') / 255
-    X_t = X_t.reshape(-1, 1, 28, 28).astype('float32') / 255
+    X = X.reshape(-1, 784).astype('float32') / 255
+    X_t = X_t.reshape(-1, 784).astype('float32') / 255
 
     Y = keras.utils.to_categorical(Y, num_classes=10)
     Y_t = keras.utils.to_categorical(Y_t, num_classes=10)
@@ -106,9 +106,9 @@ def dnnContinueTrain():
                   metrics=['accuracy'])
     history = model.fit(X, Y,
                         batch_size=128,
-                        epochs=8)
+                        epochs=4)
     score = model.evaluate(X_t, Y_t, verbose=0)
     print('Loss:\t', score[0])
     print('Acc :\t', score[1])
     model.save("dnn.h5")
-dnnContinueTrain()
+cnnContinueTrain()
