@@ -1,0 +1,106 @@
+1511521133114	geckodriver	INFO	geckodriver 0.19.1
+1511521133140	geckodriver	INFO	Listening on 127.0.0.1:53683
+1511521135203	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\yan1h\\AppData\\Local\\Temp\\rust_mozprofile.5BQxMeNQh1Kv"
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+1511521138309	Marionette	INFO	Enabled via --marionette
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+[Parent 8280, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 3736, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 3736, Chrome_Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+1511521143647	Marionette	INFO	Listening on port 53689
+1511521144656	Marionette	WARN	TLS certificate errors will be ignored for this session
+1511521144817	Marionette	DEBUG	Register listener.js for window 4294967297
+1511521144849	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1511521145721	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1511521145722	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1511521147120	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://login.tmall.com/"
+JavaScript warning: https://g.alicdn.com/secdev/sufei_data/3.1.9/index.js, line 1: Error: WebGL warning: Failed to create WebGL context: WebGL creation failed: 
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Exhausted GL driver caps.
+JavaScript warning: https://g.alicdn.com/secdev/sufei_data/3.1.9/index.js, line 1: Error: WebGL warning: Failed to create WebGL context: WebGL creation failed: 
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Exhausted GL driver caps.
+1511521151270	Marionette	DEBUG	Received DOM event "pageshow" for "https://login.tmall.com/"
+[Parent 8280, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Parent 8280, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Parent 8280, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 6568, Chrome_ChildThrUnable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+1511521185136	Marionette	INFO	Enabled via --marionette
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+[Child 7860, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 7860, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channelUnable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+1511521215441	Marionette	INFO	Listening on port 53775
+1511521215955	Marionette	WARN	TLS certificate errors will be ignored for this session
+1511521216070	Marionette	DEBUG	Register listener.js for window 4294967297
+1511521216105	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1511521220739	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1511521225625	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1511521229567	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://login.tmall.com/"
+JavaScript warning: https://g.alicdn.com/secdev/sufei_data/3.1.9/index.js, line 1: Error: WebGL warning: Failed to create WebGL context: WebGL creation failed: 
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Exhausted GL driver caps.
+1511521232038	Marionette	DEBUG	Received DOM event "pageshow" for "https://login.tmall.com/"
+1511521232431	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+[Parent 5796, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Parent 5796, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common1511521343527	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\yan1h\\AppData\\Local\\Temp\\rust_mozprofile.B4mXWDFt54AA"
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+1511521346757	Marionette	INFO	Enabled via --marionette
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+[Parent 10100, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+Unable to read VR Path Registry from C:\Users\yan1h\AppData\Local\openvr\openvrpaths.vrpath
+1511521357151	Marionette	INFO	Listening on port 53933
+1511521357465	Marionette	WARN	TLS certificate errors will be ignored for this session
+1511521357620	Marionette	DEBUG	Register listener.js for window 4294967297
+1511521357721	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1511521358165	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1511521358166	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1511521359667	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://login.tmall.com/"
+JavaScript warning: https://g.alicdn.com/secdev/sufei_data/3.1.9/index.js, line 1: Error: WebGL warning: Failed to create WebGL context: WebGL creation failed: 
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Exhausted GL driver caps.
+1511521362362	Marionette	DEBUG	Received DOM event "pageshow" for "https://login.tmall.com/"
+1511521363129	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1511521369260	Marionette	DEBUG	Received DOM event "beforeunload" for "https://login.taobao.com/member/login.jhtml?tpl_redirect_url=https%3A%2F%2Fwww.tmall.com&style=miniall&enup=true&newMini2=true&full_redirect=true&sub=true&from=tmall&allp=assets_css%3D3.0.10/login_pc.css&pms=1511521359496"
+1511521370445	Marionette	DEBUG	Received DOM event "pagehide" for "https://login.taobao.com/member/login.jhtml?tpl_redirect_url=https%3A%2F%2Fwww.tmall.com&style=miniall&enup=true&newMini2=true&full_redirect=true&sub=true&from=tmall&allp=assets_css%3D3.0.10/login_pc.css&pms=1511521359496"
+1511521370457	Marionette	DEBUG	Received DOM event "unload" for "https://login.taobao.com/member/login.jhtml?tpl_redirect_url=https%3A%2F%2Fwww.tmall.com&style=miniall&enup=true&newMini2=true&full_redirect=true&sub=true&from=tmall&allp=assets_css%3D3.0.10/login_pc.css&pms=1511521359496"
+1511521370495	Marionette	DEBUG	Received observer notification "outer-window-destroyed" for "4294967304"
+JavaScript warning: https://g.alicdn.com/secdev/sufei_data/3.1.9/index.js, line 1: Error: WebGL warning: Failed to create WebGL context: WebGL creation failed: 
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Exhausted GL driver caps.
+1511521370984	Marionette	DEBUG	Received DOM event "pageshow" for "https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.tmall.com"
+1511521371005	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.tmall.com"
+[Parent 10100, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+1511521372037	Marionette	DEBUG	Received observer notification "outer-window-destroyed" for "4294967301"
+JavaScript warning: https://g.alicdn.com/secdev/sufei_data/3.1.9/index.js, line 1: Error: WebGL warning: Failed to create WebGL context: WebGL creation failed: 
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Error during ANGLE OpenGL init.
+* Exhausted GL driver caps.
