@@ -5,3 +5,6 @@
 .pylintrc
 wall*
 .idea
+**.log
+*.xls
+
