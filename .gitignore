@@ -3,8 +3,9 @@
 *.py[cod]
 *.class
 .pylintrc
-wall*
 .idea
-**.log
+*.log
 *.xls
 
+*.xlsx
+*.exe
