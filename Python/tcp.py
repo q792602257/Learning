@@ -1,12 +1,9 @@
-#!/usr/bin/env python
 # -*- coding:utf8 -*-
 import socket
 import pexpect
 import sys
 import json
 import re
-reload(sys)
-sys.setdefaultencoding("utf8")
 
 class S():
 
@@ -14,15 +11,15 @@ class S():
 		self.s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.s.bind((addr,port))
 		self.s.listen(5)
-		print "Listen:\t%s:%s"%(addr,port)
+		print("Listen:\t%s:%s"%(addr,port))
 		while True:
 			try:
 				self.con,addr=self.s.accept()
 			except KeyboardInterrupt:
-				print "Exiting..."
+				print("Exiting...")
 				self.Exit()
 				sys.exit()
-			print "From:\t%s:%s"%(addr[0],addr[1])
+			print("From:\t%s:%s"%(addr[0],addr[1]))
 			recv=self.con.recv(65536)
 			self.handle(recv)
 	def handle(self,recv):
@@ -51,17 +48,17 @@ class S():
 				self.Send(self.openPort())
 				self.con.close()
 		else:
-			print recv
+			print(recv)
 			self.Send("Please Use The Software To Access This.")
 			self.con.close()
 	def execcmd(self,cmd):
 		self.execresult=[]
 		if type(cmd)==list:
 			for i in cmd:
-				print "Exec:\t%s"%i
+				print("Exec:\t%s"%i)
 				self.execresult.append(self.shell(i))
 		elif type(cmd)==str:
-			print "Exec:\t%s"%cmd
+			print("Exec:\t%s"%cmd)
 			self.execresult.append(self.shell(cmd))
 		return self.execresult
 	def openPort(self):
@@ -121,7 +118,7 @@ class S():
 		except pexpect.exceptions.TIMEOUT:
 			return "TimeOut"
 	def Send(self,data):
-		print data
+		print(data)
 		if type(data)==str or type(data)==int:
 			self.con.send("jerryadmin%s2"%data)
 		elif type(data)==dict or type(data)==list or type(data)==tuple:
@@ -134,7 +131,7 @@ class C():
 	def connect(self,addr="jerryyan.top",port=8888):
 		self.con=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.con.connect((addr,port))
-		print "Conntected"
+		print("Conntected")
 	def Send(self,data):
 		if type(data)==str:
 			self.con.send("jerryadmin%s2"%data)
@@ -147,8 +144,8 @@ class C():
 			a=json.loads(recv[10:-1])
 			return a
 		else:
-			print recv
-			print "Invalid Return."
+			print(recv)
+			print("Invalid Return.")
 			return False
 		self.con.close()
 
@@ -156,7 +153,7 @@ def c():
 	while True:
 		c=C()
 		c.connect(addr="127.0.0.1")
-		print c.Send({"method":"openPort"})
+		print(c.Send({"method":"openPort"}))
 		break
 def s():
 	s=S()
