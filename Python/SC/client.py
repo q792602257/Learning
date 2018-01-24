@@ -1,9 +1,11 @@
 import socket
 import json
 from time import sleep
+import threading
 
-ADDR="127.0.0.1"
-PORT=8888
+SERVER_PART = False
+ADDR = "127.0.0.1"
+PORT = 8888
 
 def send(con,data):
 	data_type=None
@@ -23,7 +25,7 @@ def send(con,data):
 	con.send(data)
 
 def build_data(data_type,data):
-	retu=data_type+"\r\ns-p-l-i-t\r\n"+data
+	retu=data_type+"\r\ns-p-l-i-t\r\n"+data+"\r\nE-N-D"
 	retu=retu.encode()
 	return retu
 
@@ -31,6 +33,7 @@ def recv(con,wait=False):
 	data=b''
 	while True:
 		if wait:
+			print("Here")
 			while True:
 				tmp = con.recv(1024)
 				if tmp!=b'':
@@ -40,7 +43,9 @@ def recv(con,wait=False):
 				else:
 					continue
 		else:
-			tmp = con.recv(1024)
+			print("Here")
+			tmp = con.recv(1024,)
+			print(tmp)
 			if tmp!=b'':
 				data+=tmp
 			else:
@@ -50,11 +55,12 @@ def recv(con,wait=False):
 		print("Failed On Proceed Recived DATA")
 	else:
 		print("[Recv][%4s]%s"%(data_type,data))
-		handle(data)
+	return data
 
 def divide_data(data):
 	data=bytes.decode(data)
-	data_array=data.split("\r\ns-p-l-i-t\r\n",1)
+	data = data.split("\r\nE-N-D", 1)[0]
+	data_array = data.split("\r\ns-p-l-i-t\r\n", 1)
 	if len(data_array)!=2:
 		print(data_array)
 		return False,False
@@ -76,8 +82,32 @@ def divide_data(data):
 def handle(data):
 	print("[Hndl]%s"%data)
 
-while True:
-	con=socket.socket()
-	con.connect((ADDR,PORT))
-	sleep(1)
-	send(con,[123])
+def server_ok_response(con):
+	data = build_data("SERV","OK")
+	print("[Send][SERV]OK")
+	con.send(data)
+
+def comminucation(con):
+	if SERVER_PART:
+		data=recv(con)
+		server_ok_response(con)
+	else:
+		send(con,"OK")
+		sleep(1)
+		recv(con,True)
+		server_ok_response(con)
+
+if __name__=="__main__":
+	if SERVER_PART:
+		s=socket.socket()
+		s.bind((ADDR,PORT))
+		print("Listen to Localhost:8888")
+		while True:
+			con,addr=s.accept()
+			print("<---%15s:%-5d----"%(addr[0],addr[1]))
+			threading.Thread(target=comminucation,args=(con,))
+	else:
+		con = socket.socket()
+		con.connect((ADDR, PORT))
+		print("----%15s:%-5d--->" % (ADDR, PORT))
+		threading.Thread(target=comminucation,args=(con,))
