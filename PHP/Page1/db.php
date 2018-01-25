@@ -18,8 +18,10 @@ class inDB implements ArrayAccess{
 	public function offsetUnset($offset){
 	}
 	public function __get($offset){
+		return ($this->offsetGet($offset));
 	}
 	public function __set($offset, $value){
+		return ($this->offsetSet($offset, $value));
 	}
 }
 class db implements ArrayAccess{
@@ -45,6 +47,12 @@ class db implements ArrayAccess{
 	}
 	public function offsetUnset($offset){
 		if(!$this->db_con){die("请连接数据库！！！");}
+	}
+	public function __get($offset){
+		return ($this->offsetGet($offset));
+	}
+	public function __set($offset, $value){
+		return ($this->offsetSet($offset, $value));
 	}
 }
 $a=new db("192.168.31.3:3306","root","Bd960912");
