@@ -1,10 +1,48 @@
 <?php
-class inDB implements ArrayAccess{
+class inDB implements ArrayAccess{ #TODO:
 	private $db_con=false;
-	private $db_name=null;		
+	private $db_name=null;
+	private $tables=[];
 	public function __construct($con,$db_name){
 		if(!$con){die('连接数据库时出现错误' . mysql_error());}
-		else{$this->db_con=$con;$this->db_name=$db_name;}
+		$this->db_con=$con;$this->db_name=$db_name;
+		$result = mysql_query("show tables;");
+		while($arr=mysql_fetch_assoc($result)){
+			;
+		}
+	}
+	public function get_tables(){
+		
+	}
+	public function offsetGet($offset){
+	}
+	public function offsetSet($offset, $value){
+	}
+	public function offsetExists($offset){
+	}
+	public function offsetUnset($offset){
+	}
+	public function __get($offset){
+		return ($this->offsetGet($offset));
+	}
+	public function __set($offset, $value){
+		return ($this->offsetSet($offset, $value));
+	}
+}
+class inTABLES implements ArrayAccess{
+	private $db_con=false;
+	private $db_name=null;
+	private $table_name=null;
+	private $column=[];
+	private $column_info=[];
+	public function __construct($con,$db_name){
+		if(!$con){die('连接数据库时出现错误' . mysql_error());}
+		$this->db_con=$con;$this->db_name=$db_name;
+		$result = mysql_query("show columns from $this->table_name;");
+		while($arr=mysql_fetch_assoc($result)){
+			array_push($this->column,$arr["Field"]);
+			$this->column_info[$arr["Field"]]=$arr["Type"];
+		}
 	}
 	public function get_tables(){
 		
