@@ -44,9 +44,6 @@ class inTABLES implements ArrayAccess{
 			$this->column_info[$arr["Field"]]=$arr["Type"];
 		}
 	}
-	public function get_tables(){
-		
-	}
 	public function offsetGet($offset){
 	}
 	public function offsetSet($offset, $value){
