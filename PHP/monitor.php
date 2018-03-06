@@ -41,7 +41,7 @@ $LoadAvg15M=$upTime[5];//15分钟负载：不显示
 $memStat=handle(read(send(conn(),"memStat")));
 $memTotal=$memStat[1];//内存总量M
 $memUsed=$memStat[2];//内存用量M
-$memFree=$memStat[3]//可用内存M
+$memFree=$memStat[3];//可用内存M
 $memBuffer=$memStat[4];//缓存：不显示
 $memAvail=$memStat[5];//实际可用内存：不显示
 ?> 
