@@ -2,7 +2,7 @@
 # -*- coding:utf8 -*-
 import sys
 import os
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 from form import Ui_Form
 from time import sleep
 #reload(sys)
@@ -13,7 +13,6 @@ class mywindow(QtWidgets.QWidget,Ui_Form):
         super(mywindow,self).__init__()    
         self.setupUi(self)
         self.commandLinkButton.clicked.connect(self.hello)
-        self.toolButton.clicked.connect(sys.exit)
 
     #定义槽函数
     def hello(self):
@@ -24,5 +23,7 @@ class mywindow(QtWidgets.QWidget,Ui_Form):
 
 app = QtWidgets.QApplication(sys.argv)
 window = mywindow()
+window.setFixedSize(window.width, window.height)
+window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 window.show()
 sys.exit(app.exec_())

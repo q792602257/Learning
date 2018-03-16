@@ -9,32 +9,58 @@ import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Form(object):
+    def __init__(self, *args, **kwargs):
+        self.DPI=1.5
+        self.width=176*self.DPI
+        self.height=264*self.DPI
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(176*2, 264*2)
-        self.label = QtWidgets.QLabel(Form)
-        self.label.setGeometry(QtCore.QRect(8, 0, 176*2, 56*2))
-        self.label.setObjectName("label")
-        self.label.setBackgroundRole(QtGui.QPalette.ColorRole(0))
-        self.label.setFont(QtGui.QFont("pixelmix",72))
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(600, 20, 181, 91))
-        self.pushButton.setObjectName("pushButton")
+        Form.setGeometry(1000,32,self.width*self.DPI, self.height*self.DPI)
+        Form.setWindowOpacity(0.8)
+        Form.setStyleSheet("""
+        QMainWindow {
+            background:gray;
+        }
+        QLabel {
+            color:black;
+            background:white;
+        }
+        QLabel[bw="true"] {
+            color:white;
+            background:black;
+        }""")
+        self.BigTime = QtWidgets.QLabel(Form)
+        self.BigTime.setGeometry(QtCore.QRect(0, 0, int(self.width*self.DPI), int(36*self.DPI)))
+        self.BigTime.setObjectName("BigTime")
+        self.BigTime.setFont(QtGui.QFont("Inziu Iosevka SC",int(32*self.DPI),QtGui.QFont.Bold))
+        self.SmallDate=QtWidgets.QLabel(Form)
+        self.SmallDate.setProperty("bw",True)
+        self.SmallDate.setGeometry(QtCore.QRect(self.width-int(96*self.DPI), self.BigTime.height(), int(96*self.DPI), int(20*self.DPI)))
+        self.SmallDate.setFont(QtGui.QFont("Inziu Iosevka SC",int(12*self.DPI),QtGui.QFont.Bold))
+        self.update_time()
+        self.Temp = QtWidgets.QLabel(Form)
+        self.Temp.setProperty("bw",True)
+        self.Temp.setGeometry(QtCore.QRect(0, self.BigTime.height(), self.width-self.SmallDate.width()-1,int(20*self.DPI)))
+        self.Temp.setFont(QtGui.QFont("Inziu Iosevka SC",int(12*self.DPI)))
+        self.Temp.setText("00[00.0]℃")
+        self.Weather = QtWidgets.QLabel(Form)
+        self.Weather.setGeometry(QtCore.QRect(0, self.SmallDate.y()+self.SmallDate.height(), int(80*self.DPI),int(60*self.DPI)))
+        self.Weather.setFont(QtGui.QFont("Inziu Iosevka SC",int(40*self.DPI)))
+        self.Weather.setText(str(self.SmallDate.y()+self.SmallDate.height()))
         self.commandLinkButton = QtWidgets.QCommandLinkButton(Form)
         self.commandLinkButton.setGeometry(QtCore.QRect(600, 140, 172, 41))
         self.commandLinkButton.setObjectName("commandLinkButton")
-        self.toolButton = QtWidgets.QToolButton(Form)
-        self.toolButton.setGeometry(QtCore.QRect(290, 30, 37, 18))
-        self.toolButton.setObjectName("toolButton")
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.update_time)
+        self.timer.start(1000)
+
+    def update_time(self):
+        now = datetime.datetime.now()
+        self.BigTime.setText(now.strftime("%H:%M:%S"))
+        self.SmallDate.setText(now.strftime("%y/%m/%d")+"<small> "+now.strftime("%a")+"</small>")
 
     def retranslateUi(self, Form):
-        now = datetime.datetime.now()
-        _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle("Form")
-        self.pushButton.setText("0")
         self.commandLinkButton.setText("Form, CommandLinkButton")
-        self.toolButton.setText(_translate("Form", "..."))
-        self.label.setText(now.strftime("%H:%M"))
-
