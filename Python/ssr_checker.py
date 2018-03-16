@@ -8,7 +8,7 @@ full_path="/root/shadowsocksr/shadowsocks/local.py"
 con=mysql.connect(host="localhost",port=3306,user='root',password='Bd960912',db='jerry',charset='utf8')
 cursor=con.cursor()   
 def Get():
-    cursor.execute("SELECT `name`,`server`,`port`,`protocol`,`method`,`obfs`,`keys`,`obfsparam`,`protoparam` FROM `ssr` WHERE `Check` < SUBDATE(NOW(), INTERVAL 3 HOUR) AND `isValid` = 1 UNION SELECT `name`,`server`,`port`,`protocol`,`method`,`obfs`,`keys`,`obfsparam`,`protoparam` FROM `ssr` WHERE `Check` > SUBDATE(NOW(), INTERVAL 12 HOUR) AND `isValid` = 0 ;")
+    cursor.execute("SELECT `name`,`server`,`port`,`protocol`,`method`,`obfs`,`keys`,`obfsparam`,`protoparam` FROM `ssr` WHERE `Check` < SUBDATE(NOW(), INTERVAL 3 HOUR) AND `isValid` = 1 UNION SELECT `name`,`server`,`port`,`protocol`,`method`,`obfs`,`keys`,`obfsparam`,`protoparam` FROM `ssr` WHERE `Check` > SUBDATE(NOW(), INTERVAL 24 HOUR) AND `isValid` = 0 ;")
     data = cursor.fetchall()
     return data
 def Update(i,Result):

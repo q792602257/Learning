@@ -9,12 +9,25 @@ function sql_ssr_get($flag,$group,$max){
     global $con;
     $ret="";
     $sql="select `server`,`port`,`protocol`,`method`,`obfs`,`keys`,`name`,`obfsparam`,`protoparam` from `ssr` WHERE";
-    if ($flag!=1){
+    if ($flag!=9){
         $sql.=" isKey='$flag' AND ";
     }
     $sql.=" `isValid`=TRUE;";
     $result = mysql_query($sql,$con);
+    if ($flag!=9 && $flag!=1){
+        $need=4;
+    }elseif($max!=99 && $max!=0){
+        $need=$max;
+    }else{
+        $need=99;        
+    }
+    $all=mysql_num_rows($result);
     while($row = mysql_fetch_array($result)){
+        $s=rand(1,$all);
+        $all--;
+        if ($s >= $need){
+            continue;
+        }
         $mixed=[];
         $mixed["server"]=$row[0];
         $mixed["port"]=$row[1];
@@ -27,11 +40,7 @@ function sql_ssr_get($flag,$group,$max){
         $mixed["obfsparam"]=$row[7];
         $mixed["protoparam"]=$row[8];
         $ret.=ssr_link_builder($mixed)."\r\n";
-    }
-    if ($flag!=1){
-        $ret="MAX=3\r\n".$ret;
-    }elseif($max!=0){
-        $ret="MAX=$max\r\n".$ret;        
+        $need--;
     }
     return $ret;
 }

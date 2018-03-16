@@ -6,10 +6,16 @@ if (array_key_exists("key",$_GET)){
     if ($_GET["key"]=="neyacat" || $_GET["key"]=="jerryyan"){
         if (array_key_exists("max",$_GET)){
             $max=(int)$_GET['max'];
+            if ($max==99){
+                $flag=9;
+            }else{
+                $flag=1;                
+            }
         }else{
             $max=0;
+            $flag=1;
         }
-        $ret.=sql_ssr_get(1,$_GET["key"],$max);
+        $ret.=sql_ssr_get($flag,$_GET["key"],$max);
     }else{
         $ret.=sql_ssr_get(0,"Jerry's SSR Group",3);
     }
