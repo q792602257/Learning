@@ -6,6 +6,6 @@
 .idea
 *.log
 *.xls
-
+__init__.py
 *.xlsx
 *.exe

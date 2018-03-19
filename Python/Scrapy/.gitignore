@@ -1,0 +1,6 @@
+middlewares.py
+items.py
+pipelines.py
+settings.py
+scrapy.cfg
+__*
