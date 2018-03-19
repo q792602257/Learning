@@ -176,7 +176,7 @@ function type_render($sid,$lei){
     $type=["Unknown","单选题","多选题","名词解释","问答题"];
     echo "<div><h1><a href='?sid=".(String) $_GET['sid']."'><--".$lei."--></a></h1></div>";  
     echo "<div><h2>小类目</h2></div>";
-    echo "<div><h3><a href=?sid=".(String) $leibie['sid']."&Lei=$lei&type=0>随机</a></h3></div><hr/>";
+    echo "<div><h3><a href=?sid=".(String) $sid."&Lei=$lei&type=0>随机</a></h3></div><hr/>";
     for ($i=1; $i<=4; $i++){
         echo "<div><h3><a href='?sid=".(String) $sid."&Lei=".$lei."&type=".(String) $i."'>".$type[$i]."</a></h3></div>";
     }    
