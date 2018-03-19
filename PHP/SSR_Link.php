@@ -15,7 +15,7 @@ function sql_ssr_get($flag,$group,$max){
     $sql.=" `isValid`=TRUE;";
     $result = mysql_query($sql,$con);
     if ($flag!=9 && $flag!=1){
-        $need=4;
+        $need=3;
     }elseif($max!=99 && $max!=0){
         $need=$max;
     }else{
@@ -25,7 +25,7 @@ function sql_ssr_get($flag,$group,$max){
     while($row = mysql_fetch_array($result)){
         $s=rand(1,$all);
         $all--;
-        if ($s >= $need){
+        if ($s > $need){
             continue;
         }
         $mixed=[];

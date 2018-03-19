@@ -4,7 +4,7 @@ import pymysql as mysql
 
 port="65432"
 times=5
-full_path="/root/shadowsocksr/shadowsocks/local.py"
+full_path="/root/shadowsocksr/shadowsocks/local.py -qq"
 con=mysql.connect(host="localhost",port=3306,user='root',password='Bd960912',db='jerry',charset='utf8')
 cursor=con.cursor()   
 def Get():

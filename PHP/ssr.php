@@ -12,7 +12,7 @@ if (array_key_exists("key",$_GET)){
                 $flag=1;                
             }
         }else{
-            $max=0;
+            $max=10;
             $flag=1;
         }
         $ret.=sql_ssr_get($flag,$_GET["key"],$max);
