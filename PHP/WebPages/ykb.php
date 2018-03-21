@@ -17,8 +17,8 @@ function get_timu($sid,$Lei,$T_type,$count){
     global $con;
     $sid=(int)$sid;
     $Lei = str_replace("'","",str_replace("\"","",str_replace(";","",$Lei)));
-    $q_sql="SELECT * FROM `medtiku`";
-    $c_sql="SELECT COUNT(1) FROM `medtiku`";
+    $q_sql="SELECT * FROM `ykb`";
+    $c_sql="SELECT COUNT(1) FROM `ykb`";
     if ($sid!=0 || $Lei!=0 || ($T_type <= 4 && $T_type >= 1)){
         $q_sql=$q_sql." WHERE";
         $c_sql=$c_sql." WHERE";
@@ -69,7 +69,7 @@ function get_timu($sid,$Lei,$T_type,$count){
 }
 function get_biglei(){
     global $con;
-    $sql="SELECT `BigLei` as 'name',`sid`,COUNT(1) as 'count' FROM medtiku GROUP BY `sid`";
+    $sql="SELECT `BigLei` as 'name',`sid`,COUNT(1) as 'count' FROM ykb GROUP BY `sid`";
     $tmpr=mysqli_query($con,$sql);
     $res=[];
     while($row = mysqli_fetch_assoc($tmpr)){
@@ -79,7 +79,7 @@ function get_biglei(){
 }
 function get_lei($sid){
     global $con;
-    $sql="SELECT `BigLei` AS 'bname',`sid`,`Lei` as 'name',COUNT(1) as 'count' FROM medtiku WHERE `sid`=".(int) $sid." GROUP BY `Lei`";
+    $sql="SELECT `BigLei` AS 'bname',`sid`,`Lei` as 'name',COUNT(1) as 'count' FROM ykb WHERE `sid`=".(int) $sid." GROUP BY `Lei`";
     $tmpr=mysqli_query($con,$sql);
     $res=[];
     echo(mysqli_error($con));
