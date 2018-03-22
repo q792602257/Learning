@@ -9,3 +9,4 @@
 __init__.py
 *.xlsx
 *.exe
+*.class
