@@ -7,7 +7,7 @@
 *.log
 *.xls
 __init__.py
-*.xlsx
-*.exe
-*.class
+*.xlsx?
+*.csv
+*.h5
 test*
