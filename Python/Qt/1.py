@@ -23,7 +23,6 @@ class mywindow(QtWidgets.QWidget,Ui_Form):
 
 app = QtWidgets.QApplication(sys.argv)
 window = mywindow()
-window.setFixedSize(window.width, window.height)
-window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint|QtCore.Qt.FramelessWindowHint)
 window.show()
 sys.exit(app.exec_())
