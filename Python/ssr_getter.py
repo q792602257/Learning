@@ -13,8 +13,12 @@ All_Method=["none","aes-128-ctr","aes-192-ctr","aes-256-ctr",'aes-128-cfb','aes-
 All_Protocol=['origin','verify_deflate','auth_sha1_v4','auth_aes128_md5','auth_aes128_sha1','auth_chain_a','auth_chain_b','auth_chain_c','auth_chain_d','auth_chain_e','auth_chain_f']
 All_Obfs=['plain','http_simple','http_post',"random_head",'tls1.2_ticket_auth','tls1.2_ticket_fastauth']
 s=requests.Session()
+proxy={
+    "http":"socks5://127.0.0.1:1080",
+    "https":"socks5://127.0.0.1:1080"
+}
 def code_getter():
-    p=s.get("https://tool.ssrshare.com/tool/share_ssr")
+    p=s.get("https://tool.ssrshare.com/tool/share_ssr",proxies=proxy)
     soup=Soup(p.text,"html.parser")
     al=""
     for i in soup.select("head script"):
@@ -25,11 +29,11 @@ con=mysql.connect(host="localhost",port=3306,user='root',password='Bd960912',db=
 cursor=con.cursor()
 def get_share_html():
     url="https://tool.ssrshare.com/tool/api/share_ssr?key="+code_getter()
-    p=s.get(url)
+    p=s.get(url,proxies=proxy)
     return p.text
 def get_free_html():
     url="https://tool.ssrshare.com/tool/api/free_ssr?key="+code_getter()
-    p=s.get(url)
+    p=s.get(url,proxies=proxy)
     return p.text
 def Add(i,isK=1):
     if i[1]=="" or i[2]=="" or i[3]=="" or i[4]=="" or i[5]=="" or i[6]=="":
