@@ -15,13 +15,13 @@ class MySC:
 			self.s.listen()
 			print("Listen to localhost:8888")
 			while True:
-				self.con,self.addr=self.s.accept()
-				print("<---%15s:%-5d----"%(self.addr[0],self.addr[1]))
-				threading.Thread(target=self.comminucation,args=(self.con,)).start()
+				self.con,addr=self.s.accept()
+				print("<---%15s:%-5d----"%(addr[0],addr[1]))
+				threading.Thread(target=self.comminucation,args=(self.con,addr)).start()
 		else:
 			self.con = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 			self.con.connect((ADDR, PORT))
-			print("----%15s:%-5d--->" % (ADDR, PORT))
+			print("----%15s:%-5d--->" % (self.ADDR, self.PORT))
 			threading.Thread(target=self.comminucation,args=(self.con,)).start()
 
 	def send(self,con,data):
@@ -52,7 +52,10 @@ class MySC:
 		while True:
 			if wait:
 				while True:
-					tmp = con.recv(1024)
+					try:
+						tmp = con.recv(1024)
+					except ConnectionResetError:
+						return "DISCONNECT"
 					if tmp!=b'':
 						wait=False
 						data+=tmp
@@ -71,7 +74,7 @@ class MySC:
 			print("Failed On Proceed Recived DATA")
 		else:
 			print("[Recv][%4s]%s"%(data_type,data))
-		if data_type=="Clnt" and data=="OK":
+		if (data_type=="Clnt" or data_type=="SERV") and data=="OK":
 			return "DISCONNECT"
 		return data
 
@@ -111,23 +114,29 @@ class MySC:
 		print("[Send][Clnt]OK")
 		con.send(data)
 
-	def comminucation(self,con):
+	def comminucation(self,con,addr=[]):
 		if self.SERVER_PART:
 			while True:
+				print("<---%15s:%-5d----"%(addr[0],addr[1]))				
 				data=self.recv(con,True)
 				# server_ok_response(con)
 				if data=="DISCONNECT":
 					print("Disconnect")
 					break
 				else:
-					self.send(con,"123123")
+					self.send(con,"1")
 					continue
 		else:
-			self.send(con,False)
-			sleep(1)
-			data=self.recv(con,True)
-			self.send(con,True)
-			data=self.recv(con,True)
+			while True:
+				sleep(1)
+				print("----%15s:%-5d--->" % (self.ADDR, self.PORT))				
+				self.send(con,False)
+				data=self.recv(con,True)
+				if data=="DISCONNECT":
+					print("Disconnect")
+					break
+				else:
+					continue
 			self.client_ok_response(con)
 
 MySC()
