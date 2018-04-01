@@ -15,7 +15,8 @@
 <body>
     <div class="top left" id='datetime'>
         <div id="date">
-            <span id="year">2018</span><span id="month"> 3</span><span id="day">31</span><span id="week">礼拜六</span><span id="lunar"></span>
+            <span id="year">2018</span><span id="month"> 3</span><span id="day">31</span><span id="week">礼拜六</span><br>
+            <span id="lunar"></span>
         </div>
         <div id="time">
             <span id="hour">00</span><span id="minute">00</span><span id="second">00</span>
