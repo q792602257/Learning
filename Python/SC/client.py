@@ -2,6 +2,8 @@ import socket
 import json
 from time import sleep
 import threading
+import sys
+import _io
 
 class MySC:
 
@@ -26,22 +28,41 @@ class MySC:
 
 	def send(self,con,data):
 		data_type=None
+		lenth=0
 		if type(data)==str:
 			data_type="str"
+			lenth+=len(data)
 		elif type(data)==bool:
 			data_type = "bool"
 			if data:
 				data="T"
 			else:
 				data="F"
+			lenth+=len(data)
 		elif type(data) == dict or type(data) == list or type(data) == tuple:
 			data_type = "json"
 			data=json.dumps(data)
+			lenth+=len(data)
 		elif type(data) == bytes:
 			data_type = "Raw"
-		print("[Send][%4s]%d Byte"%(data_type,len(data)))
+			lenth+=len(data)
+		elif type(data) == _io.BufferedReader:
+			data_type = "File"
+			con.send(b'File\r\ns-p-l-i-t\r\n')
+			sys.stdout.write("[Sending]%12d Byte\r"%lenth)				
+			while True:
+				j=data.read(16384000)
+				if not j:
+					break
+				con.send(j)
+				lenth+=len(j)
+				sys.stdout.write("[Sending]%12d Byte\r"%lenth)				
+			con.send(b"\r\nE-N-D")
+			print("[Send][%4s]%d Byte"%(data_type,lenth))			
+			return None
 		data=self.build_data(data_type,data)
 		con.send(data)
+		print("[Send][%4s]%d Byte"%(data_type,lenth))
 
 	@staticmethod
 	def build_data(data_type,data):
@@ -54,22 +75,24 @@ class MySC:
 
 	def recv(self,con):
 		data=b''
+		lenth=0
 		while True:
 			try:
-				tmp = con.recv(1024)
+				tmp = con.recv(16384)
 			except ConnectionResetError:
 				return "D-I-S-C-O-O-N-E-C-T"
 			data+=tmp
+			lenth+=len(tmp)
 			if tmp.endswith(b"\r\nE-N-D"):
 				break
 			else:
-				print("[Recving]%12d Byte"%len(data),'\b'*32+'\r')
+				sys.stdout.write("[Recving]%12d Byte\r"%lenth)
 				continue
 		data_type,data=self.divide_data(data)
 		if not data_type:
 			print("Failed On Proceed Recived DATA")
 		else:
-			print("[Recv][%4s]%d Byte"%(data_type,len(data)))
+			print("[Recv][%4s]%d Byte"%(data_type,lenth))
 		if (data_type=="Clnt" or data_type=="SERV") and data==b"OK":
 			return "D-I-S-C-O-O-N-E-C-T"
 		return data
@@ -126,14 +149,15 @@ class MySC:
 					print("Disconnect")
 					break
 				else:
-					self.send(con,"1")
+					self.send(con,data)
 					continue
 		else:
 			while True:
 				sleep(1)
 				print("----%15s:%-5d--->" % (self.ADDR, self.PORT))	
-				with open("cnn.h5","rb") as f:
-					self.send(con,b"".join(f.readlines()))
+				self.send(con,True)
+				# with open("F:\\ISO\\WIN7PE.ISO","rb") as f:
+				# 	self.send(con,f)
 				data=self.recv(con)
 				if data=="D-I-S-C-O-O-N-E-C-T":
 					print("Disconnect")
