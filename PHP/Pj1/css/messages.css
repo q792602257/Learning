@@ -1,0 +1,56 @@
+.bottom{
+    position: absolute;
+    bottom:0;
+    width: 80%;
+    left: 10%;
+}
+#messages{
+    font-size: 0.8em;
+    height:240px;
+}
+#messages>.message{
+    display: none;
+}
+#messages>.activate{
+    display: initial;
+    height:100%;    
+}
+.weatherInfo{
+    font-size: 0.6em;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    height: 15%;
+    text-align: center;
+}
+.title{
+    font-size: 0.9em;
+    display: block;
+    text-align: center;
+    height: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    color: #ddd;
+}
+.content{
+    display: block;
+    font-family: MFYHL;
+    font-size: 0.55em;
+    text-align: left;
+    height:60%;
+    width: 87.5%;
+    color: #888;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    float: left;
+}
+.qrcode{
+    display: block;
+}
+.qrcode>canvas{
+    width: 10%;
+    height: 10%;
+    border: solid white 2px;
+}

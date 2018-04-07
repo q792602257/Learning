@@ -8,9 +8,12 @@
     <script src="js/jquery.js"></script>
     <script src="js/lunar.js"></script>
     <script src="js/time.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="js/jquery.qrcode.js"></script>
+    <script src="js/messages.js"></script>
     <link rel="stylesheet" href="css/time.css"/>
     <link rel="stylesheet" href="css/weather.css"/>
-    <script src="js/weather.js"></script>
+    <link rel="stylesheet" href="css/messages.css"/>
 </head>
 <body>
     <div class="top left" id='datetime'>
@@ -58,6 +61,17 @@
                     <span class="weather1">+</span><span class="weather2">+</span>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="top right" id="noweather" style='display:none;'>
+    天气信息刷新失败
+    </div>
+    <div class="bottom" id='messages'>
+        <div class="weatherInfo"></div>
+        <div class="message">
+            <div class="title">这里是标题</div>
+            <span class="content">这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容</span>
+            <div class="qrcode" data="https://www.baidu.com/"></div>
         </div>
     </div>
 </body>

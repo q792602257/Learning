@@ -114,6 +114,7 @@ function parse_weather(data){
     $('#weather>#tinfo>.wind').text(wind_level[parse_wind_level(data.current.wind.speed.value)]);
     $('.windd').text("\uf0b1");
     $('#weather>#tinfo>.windd').css({transform:"rotate("+data.current.wind.direction.value+"deg)"});
+    $('#messages>.weatherInfo').text("天气信息："+data.forecastHourly.desc);
     var pubTime = new Date(data.forecastHourly.weather.pubTime);
     for(var i=0;i<4;i++){
         $('#today_forecast>#'+(i+1)+'h>.hint').text(build_time(new Date(pubTime.valueOf()+i*3600*1000)));    
@@ -143,11 +144,10 @@ function update_weather(){
             parse_weather(data);
         },
         error:function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log(XMLHttpRequest.status);
-            console.log(errorThrown);
-            console.log(textStatus);
+            $("#weather").hide();
+            $("#noweather").show();
         }
     });
 }
 update_weather();
-setInterval(update_weather,600000);
+setInterval(update_weather,100000);
