@@ -10,7 +10,7 @@ function sql_ssr_get($flag,$group,$max){
     $ret="";
     $sql="select `server`,`port`,`protocol`,`method`,`obfs`,`keys`,`name`,`obfsparam`,`protoparam` from `ssr` WHERE";
     if ($flag!=9){
-        $sql.=" isKey='$flag' AND ";
+        $sql.=" `isKey`='$flag' AND ";
     }
     $sql.=" `isValid`=TRUE;";
     $result = mysql_query($sql,$con);
@@ -48,9 +48,17 @@ function sql_ssr_get($flag,$group,$max){
 function ssr_link_builder($mixed){
     $server=$mixed["server"];
     $port=$mixed["port"];
-    $protocol=$mixed["protocol"];
     $method=$mixed["method"];
-    $obfs=$mixed["obfs"];
+    if (array_key_exists("obfs",$mixed)){
+        $obfs=$mixed["obfs"];
+    }else{
+        $obfs="plain";
+    }
+    if (array_key_exists("protocol",$mixed)){
+        $protocol=$mixed["protocol"];
+    }else{
+        $protocol="origin";
+    }
     $password=$mixed["password"];
     if ($server=="" || $port=="" || $protocol=="" || $method=="" || $obfs=="" || $password==""){
         die();
@@ -126,4 +134,53 @@ function sql_ssr_add($mixed){
     mysql_query($sql,$con);
     return "OK";
 }
+
+function ss_link_parser($ss_link){
+    $mixed=[];
+    $ss_link=str_replace("-","+",$ss_link);
+    $ss_link=str_replace("_","/",$ss_link);
+    $_p = explode("://",$ss_link);
+    $p=explode("@",$_p[1],2);
+    if(count($p)==2){
+        $infos=explode("#",$p[1],2);
+        $mixed['name']=urldecode($infos[1]);
+        $server_part = explode($infos[0]);
+        $mixed["server"]=$server_part[0];
+        $mixed["port"]=$server_part[1];
+        $a=base64_decode($p[0]);
+        $method_part=explode(":",$a);
+        $mixed["method"]=$method_part[0];
+        $mixed["password"]=$method_part[1];
+    }else{
+        $a=base64_decode($p[0]);
+        $_p=explode("@",$a);
+        $method_part=explode(":",$_p[0]);
+        $mixed["method"]=$method_part[0];
+        $mixed["password"]=$method_part[1];
+        $server_part=explode(":",$_p[1]);
+        $mixed["server"]=$server_part[0];
+        $mixed["port"]=$server_part[1];
+    }
+    return $mixed;
+}
+
+function ss_link_builder($mixed){
+    $server=$mixed["server"];
+    $port=$mixed["port"];
+    $method=$mixed["method"];
+    $password=$mixed["password"];
+    if ($server=="" || $port=="" || $method=="" || $password==""){
+        return "";
+    }
+    if (array_key_exists("name",$mixed)){
+        $name="#".urlencode($mixed["name"]);
+    }
+    $ss_link=$method.":".$password."@".$server.":".$port;
+    $ss_link=str_replace("=","",base64_encode($ss_link));
+    $ss_link=str_replace("+","-",$ss_link);
+    $ss_link=str_replace("/","_",$ss_link);
+    $ss_link="ss://".$ss_link.$name;
+    return $ss_link;
+}
+
 ?>
