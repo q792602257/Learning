@@ -20,19 +20,22 @@ proxy={
 def code_getter():
     p=s.get("https://tool.ssrshare.com/tool/share_ssr",proxies=proxy)
     soup=Soup(p.text,"html.parser")
-    al=""
-    for i in soup.select("head script"):
-        al+=i.get_text().strip()
-    a = re.findall("'(.+)';",al)
-    return a[0]
+    print(p.headers)
+    for i in soup.select("script"):
+        if 'subkey' in i.get_text().strip():
+            al=i.get_text().strip()
+            break
+    # a = re.findall("'(.+)';",al)
+    return '1524240000_66_aqs'
+    # return a[0]
 con=mysql.connect(host="localhost",port=3306,user='root',password='Bd960912',db='jerry',charset='utf8')
 cursor=con.cursor()
 def get_share_html():
-    url="https://tool.ssrshare.com/tool/api/share_ssr?key="+code_getter()
+    url="https://tool.ssrshare.com/tool/api/share_ssr?key=%s&page=1&limit=200"%(code_getter())
     p=s.get(url,proxies=proxy)
     return p.text
 def get_free_html():
-    url="https://tool.ssrshare.com/tool/api/free_ssr?key="+code_getter()
+    url="https://tool.ssrshare.com/tool/api/free_ssr?key=%s&page=1&limit=200"%(code_getter())
     p=s.get(url,proxies=proxy)
     return p.text
 def Add(i,isK=1):
@@ -55,7 +58,7 @@ def Add(i,isK=1):
     return True
 def html_parser(html):
     data=json.loads(html)
-    for row in data:
+    for row in data['data']:
         if (datetime.now()-datetime.strptime(row['data'], "%Y-%m-%d %H:%M:%S")).seconds > 3600*18:
             print(row)
             print("Too Long Not Check")
@@ -72,18 +75,18 @@ def html_parser(html):
         proto   = row['protocol']
         if proto=='origin':
             protop  = ""
-        elif row['protocolparam']=='null' or row['protocolparam']==None:
+        elif row['protocolparam']=='null' or row['protocolparam']==None or row['protocolparam']=="None":
             protop  = ""
         else:
             protop  = row['protocolparam']
         obfs    = row['obfs']
         if obfs=='plain':
             obfsp   = ""
-        elif row['obfsparam']=='null' or row['obfsparam']==None:
+        elif row['obfsparam']=='null' or row['obfsparam']==None or row['obfsparam']=="None":
             obfsp   = ""
         else:
             obfsp   = row['obfsparam']
-        if latency<210:
+        if latency<200:
             i=["Other "+str(latency)+"ms "+str(int(time()*100)),server,port,proto,method,obfs,passwd,obfsp,protop]
             Add(i,1)
         else:
