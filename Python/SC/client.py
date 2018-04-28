@@ -4,6 +4,7 @@ from time import sleep
 import threading
 import sys
 import _io
+import time
 
 class MySC:
 
@@ -29,6 +30,7 @@ class MySC:
 	def send(self,con,data):
 		data_type=None
 		lenth=0
+		t1=time.time()
 		if type(data)==str:
 			data_type="str"
 			lenth+=len(data)
@@ -49,20 +51,27 @@ class MySC:
 		elif type(data) == _io.BufferedReader:
 			data_type = "File"
 			con.send(b'File\r\ns-p-l-i-t\r\n')
-			sys.stdout.write("[Sending]%12d Byte\r"%lenth)				
 			while True:
 				j=data.read(16384000)
 				if not j:
 					break
 				con.send(j)
 				lenth+=len(j)
-				sys.stdout.write("[Sending]%12d Byte\r"%lenth)				
+				if time.time()-t1!=0:
+					speed = int(lenth/(time.time()-t1)/1024)
+				else:
+					speed=0
+				sys.stdout.write("[Sending-->] %12d Byte @ %8dkB/s Avg\r"%(lenth,speed))
 			con.send(b"\r\nE-N-D")
-			print("[Send][%4s]%d Byte"%(data_type,lenth))			
+			print("[Send][%4s] %12d Byte @ %8dkB/s Avg"%(data_type,lenth,speed))	
 			return None
 		data=self.build_data(data_type,data)
 		con.send(data)
-		print("[Send][%4s]%d Byte"%(data_type,lenth))
+		if time.time()-t1!=0:
+			speed = int(lenth/(time.time()-t1)/1024)
+		else:
+			speed=0
+		print("[Send][%4s] %12d Byte @ %8dkB/s Avg"%(data_type,lenth,speed))
 
 	@staticmethod
 	def build_data(data_type,data):
@@ -76,6 +85,7 @@ class MySC:
 	def recv(self,con):
 		data=b''
 		lenth=0
+		t1=time.time()
 		while True:
 			try:
 				tmp = con.recv(16384)
@@ -83,16 +93,20 @@ class MySC:
 				return "D-I-S-C-O-O-N-E-C-T"
 			data+=tmp
 			lenth+=len(tmp)
+			if time.time()-t1!=0:
+				speed = int(lenth/(time.time()-t1)/1024)
+			else:
+				speed=0
 			if tmp.endswith(b"\r\nE-N-D"):
 				break
 			else:
-				sys.stdout.write("[Recving]%12d Byte\r"%lenth)
+				sys.stdout.write("[<--Recving] %12d Byte @ %8dkB/s Avg\r"%(lenth,speed))
 				continue
 		data_type,data=self.divide_data(data)
 		if not data_type:
 			print("Failed On Proceed Recived DATA")
 		else:
-			print("[Recv][%4s]%d Byte"%(data_type,lenth))
+			print("[Recv][%4s] %12d Byte @ %8dkB/s Avg"%(data_type,lenth,speed))
 		if (data_type=="Clnt" or data_type=="SERV") and data==b"OK":
 			return "D-I-S-C-O-O-N-E-C-T"
 		return data
@@ -155,9 +169,9 @@ class MySC:
 			while True:
 				sleep(1)
 				print("----%15s:%-5d--->" % (self.ADDR, self.PORT))	
-				self.send(con,True)
-				# with open("F:\\ISO\\WIN7PE.ISO","rb") as f:
-				# 	self.send(con,f)
+				# self.send(con,True)
+				with open(r"C:\Users\yan1h\Learning\dnn.h5","rb") as f:
+					self.send(con,f)
 				data=self.recv(con)
 				if data=="D-I-S-C-O-O-N-E-C-T":
 					print("Disconnect")
@@ -166,4 +180,4 @@ class MySC:
 					break
 			self.client_ok_response(con)
 
-MySC()
+MySC(ADDR='120.79.178.21')
