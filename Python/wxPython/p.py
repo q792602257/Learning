@@ -190,8 +190,3 @@ class Pj(wx.Frame):
 a=wx.App()
 Pj(None)
 a.MainLoop()
-# rl='ssr://NDUuNzYuMjE0Ljg4OjEyMzQ1Om9yaWdpbjphZXMtMjU2LWNmYjpwbGFpbjpjMmhoWkc5M2MyOWphM00vP29iZnNwYXJhbT0mcmVtYXJrcz1hbUV3Jmdyb3VwPWFtVnljbmw1WVE'
-# sl='ss://YWVzLTI1Ni1jZmI6MTM4ODAxMThiNDg1OTNjZjI1ZTMzYzQ5OThkMGQ0Y2E@free-ss-vpn002.qxwo.wostore.cn:29035#4.22%20%209%3A37'
-# a=Parser(sl)
-# a.parse()
-# print(a.param)
