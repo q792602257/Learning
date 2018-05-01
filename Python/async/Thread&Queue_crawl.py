@@ -3,7 +3,7 @@ import queue
 import requests
 from time import sleep
 import sys
-
+import json
 
 DownQ = queue.Queue()
 ParseQ = queue.Queue()
@@ -19,6 +19,9 @@ def worker():
         except queue.Empty:
             continue
         # print(_a['id'])
+        if _a['url']=="END":
+            ParseQ.put_nowait({"id":_a['id'],"url":_a["url"],"data":"END"})
+            break
         html = getHtml(_a["url"])
         ParseQ.put_nowait({"id":_a['id'],"url":_a["url"],"data":html})
 
@@ -29,12 +32,18 @@ def parser():
             _a = ParseQ.get()
         except queue.Empty:
             continue
-        # print(_a['id'])
+        if _a['data']=="END":
+            break
+        try:
+            json.loads(_a["data"])
+        except:
+            print(_a['id'])
         # print(_a['data'])
 
 def main():
-    for i in range(1,5000):
+    for i in range(1,1000):
         DownQ.put_nowait({"id":i,"func":"getHtml","url":"https://api.bilibili.com/x/web-interface/archive/stat?aid={}".format(i)})
+    DownQ.put_nowait({"id":0,"func":"QUIT","url":"END"})
 
 class MainThread(Thread):
     def __init__(self):
