@@ -57,6 +57,8 @@ class Parser:
         _p    = _l.split("#",2)
         if len(_p) > 1:
             self.param['remarks']=unquote(_p[1])
+        else:
+            self.param['remarks']=''
         link  = _p[0]
         _part=link.split("@",2)
         if len(_part)>1:

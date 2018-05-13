@@ -137,8 +137,6 @@ function sql_ssr_add($mixed){
 
 function ss_link_parser($ss_link){
     $mixed=[];
-    $ss_link=str_replace("-","+",$ss_link);
-    $ss_link=str_replace("_","/",$ss_link);
     $_p = explode("://",$ss_link);
     $p=explode("@",$_p[1],2);
     if(count($p)==2){
@@ -147,12 +145,16 @@ function ss_link_parser($ss_link){
         $server_part = explode($infos[0]);
         $mixed["server"]=$server_part[0];
         $mixed["port"]=$server_part[1];
-        $a=base64_decode($p[0]);
+        $_s=str_replace("-","+",$p[0]);
+        $_s=str_replace("_","/",$_s);
+        $a=base64_decode($_s);
         $method_part=explode(":",$a);
         $mixed["method"]=$method_part[0];
         $mixed["password"]=$method_part[1];
     }else{
-        $a=base64_decode($p[0]);
+        $_s=str_replace("-","+",$p[0]);
+        $_s=str_replace("_","/",$_s);
+        $a=base64_decode($_s);
         $_p=explode("@",$a);
         $method_part=explode(":",$_p[0]);
         $mixed["method"]=$method_part[0];
