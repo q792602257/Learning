@@ -11,4 +11,4 @@ __init__.py
 *.csv
 *.h5
 test*
-Python/TF/models/*
+TF/models/*
