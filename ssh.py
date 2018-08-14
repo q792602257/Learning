@@ -98,8 +98,8 @@ def Monitor():
 	s=ssh()
 	command=["uname -r","cat /etc/issue","uptime","free -m","ls|grep grep|grep -v grep"]
 	serverList=[
-	{"ip":"www.jerryyan.top","port":2257,"passwd":"Bd960912"},
-	{"ip":"www.himei.top","port":1123,"passwd":"CC1123yhq"},
+	{"ip":"","port":2257,"passwd":""},
+	{"ip":"","port":1123,"passwd":""},
 	]
 	for i in s.ServerAdd(serverList):
 		if type(i)==int:
