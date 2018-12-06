@@ -1,0 +1,6 @@
+D:\Documents\Visual Studio 2013\Projects\ConsoleApplication11\ConsoleApplication11\bin\Release\AbolutePos - ayoubleg.exe.config
+D:\Documents\Visual Studio 2013\Projects\ConsoleApplication11\ConsoleApplication11\obj\Release\Interop.SyncEngineLibrary.dll
+D:\Documents\Visual Studio 2013\Projects\ConsoleApplication11\ConsoleApplication11\obj\Release\Interop.SYNCOMLib.dll
+D:\Documents\Visual Studio 2013\Projects\ConsoleApplication11\ConsoleApplication11\obj\Release\Interop.SYNCTRLLib.dll
+D:\Documents\Visual Studio 2013\Projects\ConsoleApplication11\ConsoleApplication11\obj\Release\Interop.SynTPEnhLib.dll
+D:\Documents\Visual Studio 2013\Projects\ConsoleApplication11\ConsoleApplication11\obj\Release\ConsoleApplication11.csproj.ResolveComReference.cache
