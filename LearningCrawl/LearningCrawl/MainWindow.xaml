@@ -1,0 +1,26 @@
+﻿<Window x:Class="LearningCrawl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LearningCrawl"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="96"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ProgressBar Name="PgBar2" Grid.Row="0" Grid.ColumnSpan="2" Visibility="Collapsed"/>
+        <Label Name="Label2" Grid.Row="1" Grid.Column="0" FontSize="16" Grid.ColumnSpan="2">豆瓣热映电影</Label>
+        <Button Name="Button2" Grid.Row="1" Grid.Column="1" Click="ButtonBase_OnClick">获取</Button>
+        <ListBox Name="ListBox2" Grid.Row="2" Grid.Column="0" SelectionChanged="ListBox2_SelectionChanged"></ListBox>
+        <Button Name="Button3" Grid.Row="2" Grid.Column="1" Click="Button3_Click">888</Button>
+    </Grid>
+</Window>
